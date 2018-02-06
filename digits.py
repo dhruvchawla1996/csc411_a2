@@ -15,7 +15,7 @@ import cPickle
 import os
 from scipy.io import loadmat
 
-from mnist_handouts import *
+from mnist_handout import *
 from plot import *
 
 ################################################################################
