@@ -52,6 +52,11 @@ def deriv_multilayer(W0, b0, W1, b1, x, L0, L1, y, y_):
     dCdL1 =  y - y_
     dCdW1 =  dot(L0, dCdL1.T ) 
     
+def compute_simple_network(x, W, b):
+    '''Compute a simple network (with no hidden layers)
+    '''
+    o = np.dot(W, x) + b
+    return softmax(o)
 
 ################################################################################
 # #Load sample weights for the multilayer neural network
