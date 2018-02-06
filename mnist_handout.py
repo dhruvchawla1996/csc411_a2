@@ -15,12 +15,14 @@ import cPickle
 import os
 from scipy.io import loadmat
 
-#Load the MNIST digit data
-M = loadmat("mnist_all.mat")
+################################################################################
+# #Load the MNIST digit data
+# M = loadmat("mnist_all.mat")
 
-#Display the 150-th "5" digit from the training set
-imshow(M["train5"][150].reshape((28,28)), cmap=cm.gray)
-show()
+# #Display the 150-th "5" digit from the training set
+# imshow(M["train5"][150].reshape((28,28)), cmap=cm.gray)
+# show()
+################################################################################
 
 
 def softmax(y):
@@ -51,19 +53,21 @@ def deriv_multilayer(W0, b0, W1, b1, x, L0, L1, y, y_):
     dCdW1 =  dot(L0, dCdL1.T ) 
     
 
-#Load sample weights for the multilayer neural network
-snapshot = cPickle.load(open("snapshot50.pkl"))
-W0 = snapshot["W0"]
-b0 = snapshot["b0"].reshape((300,1))
-W1 = snapshot["W1"]
-b1 = snapshot["b1"].reshape((10,1))
+################################################################################
+# #Load sample weights for the multilayer neural network
+# snapshot = cPickle.load(open("snapshot50.pkl"))
+# W0 = snapshot["W0"]
+# b0 = snapshot["b0"].reshape((300,1))
+# W1 = snapshot["W1"]
+# b1 = snapshot["b1"].reshape((10,1))
 
-#Load one example from the training set, and run it through the
-#neural network
-x = M["train5"][148:149].T    
-L0, L1, output = forward(x, W0, b0, W1, b1)
-#get the index at which the output is the largest
-y = argmax(output)
+# #Load one example from the training set, and run it through the
+# #neural network
+# x = M["train5"][148:149].T    
+# L0, L1, output = forward(x, W0, b0, W1, b1)
+# #get the index at which the output is the largest
+# y = argmax(output)
+################################################################################
 
 ################################################################################
 #Code for displaying a feature from the weight matrix mW
