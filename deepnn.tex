@@ -186,6 +186,21 @@
 
 \begin{homeworkProblem}
 
+\textit{Dataset Description}\\
+
+The dataset consists of a set of images with each image representing a digit from $0$ to $9$.\\
+
+Each image is 28x28 and has a black background with the digit handwritten in white.\\
+
+Some of the images are straightforward to analyze and decipher while some are more tricky to ascertain what the handwriting is trying to represent (consider the 7th image from the left of the digit 5).\\
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[scale=1]{part1.png}
+    \caption{Images from the MNIST dataset}
+    \label{fig:fig1}
+\end{figure*}
+
 \end{homeworkProblem}
 \clearpage
 
@@ -194,6 +209,39 @@
 %----------------------------------------------------------------------------------------
 
 \begin{homeworkProblem}
+
+\textit{Compute Simple Neural Network}\\
+
+The function for computing dimple neural network (no hidden layers) is in \texttt{mnist\_handout.py} and is reproduced here.\\
+
+\begin{python}
+def compute_simple_network(x, W, b):
+    '''Compute a simple network (with no hidden layers)
+    '''
+    o = np.dot(W, x) + b
+    return softmax(o)
+\end{python}
+
+An example of the function in action is seen below (and in \texttt{part2()} of \texttt{digits.py}).\\
+
+\begin{verbatim}
+>>> x = np.random.rand(784, 1)
+>>> W = np.random.rand(10, 784)
+>>> b = np.random.rand(10, 1)
+>>> compute_simple_network(x, W, b)
+array([[  1.99193053e-04],
+       [  6.44904891e-02],
+       [  5.26111393e-01],
+       [  2.89566294e-04],
+       [  3.17513200e-06],
+       [  1.48644852e-01],
+       [  6.59077183e-04],
+       [  1.44860616e-01],
+       [  8.47167332e-02],
+       [  3.00249042e-02]])
+>>> compute_simple_network(x, W, b).shape
+(10, 1)
+\end{verbatim}
 
 \end{homeworkProblem}
 \clearpage
