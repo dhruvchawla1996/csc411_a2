@@ -243,6 +243,41 @@ An example of the function in action is seen below (and in \texttt{part2()} of \
 
 \begin{homeworkProblem}
 
+\textit{Cost Function: Sum of negative log-probabilities of all training cases}
+
+\subsection{Part 3(a)}
+Compute $\frac {\partial C} {\partial w_{ij}}$ (gradient of cost function with respect to a single weight)\\
+
+For one training case, the cost function is (from slide 6 of One-Hot Encoding Lecture):\\
+
+\begin{equation}
+    C = - \sum_{j} y_{j} log p_{j}
+\end{equation}
+
+For $M$ training examples, the cost functions gets modified to:\\
+
+\begin{equation}
+    C = - \sum_{m=1}^M \sum_{j} y_{j} log p_{j}
+\end{equation}
+
+We also know that (from slide 7 of One-Hot Encoding Lecture), 
+
+\begin{equation}
+    p_{i} = \frac {e^{o_i}} {\sum_{j} e^{o_j}}
+\end{equation}
+
+and 
+
+\begin{equation}
+    \frac {\partial p_i} {\partial o_{i}} = p_i (1-p_i)
+\end{equation}
+
+This implies,
+
+\begin{equation}
+    \frac {\partial C} {\partial o_{i}} = \sum_{j} \frac {\partial C} {\partial p_{j}} \frac {\partial p_{j}} {\partial o_{i}} = \sum_{j} 
+\end{equation}
+
 \end{homeworkProblem}
 \clearpage
 

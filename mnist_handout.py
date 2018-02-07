@@ -46,6 +46,9 @@ def forward(x, W0, b0, W1, b1):
 def NLL(y, y_):
     return -sum(y_*log(y)) 
 
+def cost_fn(y, p):
+    return sum(NLL(y, p))
+
 def deriv_multilayer(W0, b0, W1, b1, x, L0, L1, y, y_):
     '''Incomplete function for computing the gradient of the cross-entropy
     cost function w.r.t the parameters of a neural network'''
@@ -68,6 +71,17 @@ def gradient_simple_network(x, W, b, y):
 
     return gradient_mat
 
+def check_finite_differences(x, W, b, y, h):
+    for j in range(28*28):
+        for i in range(10):
+            h_mat = np.zeros((28*28, 10))
+            h_mat[j, i] = h
+
+            actual_grad = gradient_simple_network(x, W, b, y)
+
+            finite_diff_grad = (NLL(y, compute_simple_network(x, W+h_mat, b)) - NLL(y, compute_simple_network(x, W+, b))/h)
+
+            difference = np.absolute(actual_grad - finite_diff_grad)
 ################################################################################
 # #Load sample weights for the multilayer neural network
 # snapshot = cPickle.load(open("snapshot50.pkl"))
