@@ -31,10 +31,10 @@ def part2():
     #Load the MNIST digit data
     M = loadmat("mnist_all.mat")
 
-    x = M["train5"][150].reshape((784, 1))
+    x = M["train5"][150].reshape((28*28, 1))
     x /= 255
 
-    W = np.random.rand(10, 784)
+    W = np.random.rand(10, 28*28)
     b = np.random.rand(10, 1)
 
     return compute_simple_network(x, W, b)

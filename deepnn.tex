@@ -228,20 +228,11 @@ An example of the function in action is seen below (and in \texttt{part2()} of \
 >>> x = np.random.rand(784, 1)
 >>> W = np.random.rand(10, 784)
 >>> b = np.random.rand(10, 1)
->>> compute_simple_network(x, W, b)
-array([[  1.99193053e-04],
-       [  6.44904891e-02],
-       [  5.26111393e-01],
-       [  2.89566294e-04],
-       [  3.17513200e-06],
-       [  1.48644852e-01],
-       [  6.59077183e-04],
-       [  1.44860616e-01],
-       [  8.47167332e-02],
-       [  3.00249042e-02]])
 >>> compute_simple_network(x, W, b).shape
 (10, 1)
 \end{verbatim}
+
+\texttt{compute\_simple\_network(x, W, b)} returns the output layer of the neural network.\\
 
 \end{homeworkProblem}
 \clearpage
