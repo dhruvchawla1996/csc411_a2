@@ -58,17 +58,13 @@ def compute_simple_network(x, W, b):
     o = np.dot(W, x) + b
     return softmax(o)
 
-def gradient_i_j(x, W, b, y, i, j):
+def gradient_simple_network(x, W, b, y):
     p = compute_simple_network(x, W, b)
 
-    return sum(np.dot((p[i, :] - y[i, :]), x[j: ].T))
+    gradient_mat = np.zeros((28*28, 10))
 
-def gradient(x, W, b, y):
-    gradient_mat = np.zeroes((28*28, 10))
-
-    for i in range(10):
-        for j in range(28*28):
-            gradient_mat[i, j] = gradient_i_j(x, W, b, y, i, j)
+    for j in range(28*28):
+        gradient_mat[j, :] = np.dot((p - y), x[j, :].T)
 
     return gradient_mat
 
