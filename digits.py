@@ -43,7 +43,20 @@ def part2():
 # Part 3
 ################################################################################
 def part3():
-    pass
+    #Load the MNIST digit data
+    M = loadmat("mnist_all.mat")
+
+    x = M["train5"][150].reshape((28*28, 1))
+    x /= 255
+
+    W = np.random.rand(10, 28*28)
+    b = np.random.rand(10, 1)
+    y = np.random.rand(10, 1)
+
+    # h value
+    h = 0.000001
+
+    check_finite_differences(x, W, b, y, h)
 
 ################################################################################
 # Part 4
