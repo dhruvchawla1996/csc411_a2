@@ -72,16 +72,21 @@ def gradient_simple_network(x, W, b, y):
     return gradient_mat
 
 def check_finite_differences(x, W, b, y, h):
+    difference = 0
+
     for j in range(28*28):
         for i in range(10):
             h_mat = np.zeros((28*28, 10))
             h_mat[j, i] = h
 
-            actual_grad = gradient_simple_network(x, W, b, y)
+            actual_grad = gradient_simple_network(x, W, b, y)[j, i]
 
-            finite_diff_grad = (NLL(y, compute_simple_network(x, W+h_mat, b)) - NLL(y, compute_simple_network(x, W+, b))/h)
+            finite_diff_grad = (cost_fn(y, compute_simple_network(x, W+h_mat, b)) - cost_fn(y, compute_simple_network(x, W+, b))/h)
 
-            difference = np.absolute(actual_grad - finite_diff_grad)
+            difference += abs(actual_grad - finite_diff_grad)
+
+    print("Average difference in approximation: " + str(difference/28*28*10))
+    
 ################################################################################
 # #Load sample weights for the multilayer neural network
 # snapshot = cPickle.load(open("snapshot50.pkl"))
