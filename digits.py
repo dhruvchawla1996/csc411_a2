@@ -129,7 +129,10 @@ def part4():
 
     alpha = 0.0001
 
-    train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, init_W, init_b, alpha)
+    W, b, epoch, train_perf, validation_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, validation_set, validation_label, test_set, test_label, init_W, init_b, alpha)
+
+    plot_digit_weights(W)
+    plot_learning_curves(epoch, train_perf, validation_perf, test_perf)
 
 ################################################################################
 # Part 5
