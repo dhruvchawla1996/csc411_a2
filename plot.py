@@ -41,9 +41,8 @@ def plot_digit_weights(W):
         fig.colorbar(heatmap, shrink = 0.5, aspect=5)
         savefig("figures/part4_"+str(i)+".png")
 
-def plot_learning_curves(epoch, train_perf, validation_perf, test_perf):
+def plot_learning_curves(epoch, train_perf, test_perf):
     plt.plot(epoch, train_perf, color='k', linewidth=2, marker="o", label="Training Set")
-    plt.plot(epoch, validation_perf, color='b', linewidth=2, marker="o", label="Validation Set")
     plt.plot(epoch, test_perf, color='r', linewidth=2, marker="o", label="Testing Set")
 
     plt.title("Learning curve")

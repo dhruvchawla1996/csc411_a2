@@ -119,11 +119,11 @@ def performance(x, W, b, y):
 
     return 100 * correct/float(total)
 
-def train_nn(f, df_W, df_b, x_train, y_train, x_validation, y_validation, x_test, y_test, init_W, init_b, alpha, max_iter = 5000):
+def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 2000):
     x = x_train
     y = y_train
 
-    epoch, train_perf, validation_perf, test_perf = [], [], [], []
+    epoch, train_perf, test_perf = [], [], []
 
     EPS = 1e-10
     prev_W = init_W - 10 * EPS
@@ -139,25 +139,22 @@ def train_nn(f, df_W, df_b, x_train, y_train, x_validation, y_validation, x_test
         W -= alpha * df_W(x, W, b, y)
         b -= alpha * df_b(x, W, b, y)
 
-        if itr % 500 == 0 or itr == max_iter - 1:
+        if itr % 200 == 0 or itr == max_iter - 1:
             epoch_i = itr
             train_perf_i = performance(x_train, W, b, y_train)
-            validation_perf_i = performance(x_validation, W, b, y_validation)
             test_perf_i = performance(x_test, W, b, y_test)
 
             epoch.append(epoch_i)
             train_perf.append(train_perf_i)
-            validation_perf.append(validation_perf_i)
             test_perf.append(test_perf_i)
 
             print("Epoch: " + str(epoch_i))
             print("Training Performance:   " + str(train_perf_i) + "%")
-            print("Validation Performance: " + str(validation_perf_i) + "%")
             print("Testing Performance:    " + str(test_perf_i) + "%\n")
 
         itr += 1
 
-    return W, b, epoch, train_perf, validation_perf, test_perf
+    return W, b, epoch, train_perf, test_perf
 
 ################################################################################
 # #Load sample weights for the multilayer neural network

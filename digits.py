@@ -84,42 +84,21 @@ def part3():
 #Load the MNIST digit data
 M = loadmat("mnist_all.mat")
 
-# Set sizes for training, validation and testing sets for each digit
-training_size = 400
-validation_size = 50
-test_size = 50
+# Split data into training and test set
+train_set, train_label = np.zeros((0, 28*28)), np.zeros((0, 10))
+test_set, test_label = np.zeros((0, 28*28)), np.zeros((0, 10))
 
-# Make the three sets
-train_label = np.zeros((10, training_size * 10))
-validation_label = np.zeros((10, validation_size * 10))
-test_label = np.zeros((10, test_size * 10))
+for i in range(10):
+    train_set = np.vstack((train_set, ((np.array(M["train"+str(i)])[:])/255.)))
+    test_set = np.vstack((test_set, ((np.array(M["test"+str(i)])[:])/255.)))
 
-# For digit '0'
-training_set = M["train0"][0:training_size]
-validation_set = M["train0"][training_size:training_size+validation_size]
-test_set = M["train0"][training_size+validation_size:training_size+validation_size+test_size]
+    one_hot = np.zeros(10)
+    one_hot[i] = 1
 
-train_label[0, 0:training_size] = 1
-validation_label[0, 0:validation_size] = 1
-test_label[0, 0:test_size] = 1
+    train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train"+str(i)]), 1))))
+    test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test"+str(i)]), 1))))
 
-# For the rest of the digits
-for i in range(1, 10):
-    training_set = vstack((training_set, M["train"+str(i)][0:training_size]))
-    validation_set = vstack((validation_set, M["train"+str(i)][training_size:training_size+validation_size]))
-    test_set = vstack((test_set, M["train"+str(i)][training_size+validation_size:training_size+validation_size+test_size]))
-
-    train_label[i, i*training_size:i*training_size+training_size] = 1
-    validation_label[i, i*validation_size:i*validation_size+validation_size] = 1
-    test_label[i, i*test_size:i*test_size+test_size] = 1
-
-training_set = training_set.T
-validation_set = validation_set.T
-test_set = test_set.T
-
-training_set = training_set/255.0
-validation_set = validation_set/255.0
-test_set = test_set/255.0
+train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
 
 # Load weights and biases
 snapshot = cPickle.load(open("snapshot50.pkl"))
@@ -131,11 +110,11 @@ b1 = snapshot["b1"].reshape((10,1))
 init_W = np.dot(W0, W1)
 init_b = b1
 
-alpha = 0.0001
+alpha = 0.00001
 
-W, b, epoch, train_perf, validation_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, validation_set, validation_label, test_set, test_label, init_W, init_b, alpha)
+W, b, epoch, train_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
-plot_learning_curves(epoch, train_perf, validation_perf, test_perf)
+plot_learning_curves(epoch, train_perf, test_perf)
 plot_digit_weights(W)
 
 ################################################################################
