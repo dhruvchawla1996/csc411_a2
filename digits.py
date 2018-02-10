@@ -34,7 +34,7 @@ def part2():
     M = loadmat("mnist_all.mat")
 
     x = M["train5"][150].reshape((28*28, 1))
-    x /= 255
+    x = x/255.0
 
     W = np.random.rand(28*28, 10)
     b = np.random.rand(10, 1)
@@ -52,7 +52,7 @@ def part3():
 
     # Load an image
     x = M["train5"][150].reshape((28*28, 1))
-    x /= 255
+    x = x/255.0
 
     # Load weights and biases
     snapshot = cPickle.load(open("snapshot50.pkl"))
@@ -95,9 +95,9 @@ def part4():
     test_label = np.zeros((10, test_size * 10))
 
     # For digit '0'
-    training_set = M["train0"][0:training_size].reshape((28*28, 1))
-    validation_set = M["train0"][training_size:training_size+validation_size].reshape((28*28, 1))
-    test_set = M["train0"][training_size + validation_size:training_size+validation_size+test_set].reshape((28*28, 1))
+    training_set = M["train0"][0:training_size].reshape((28*28, training_size))
+    validation_set = M["train0"][training_size:training_size+validation_size].reshape((28*28, validation_size))
+    test_set = M["train0"][training_size + validation_size:training_size+validation_size+test_size].reshape((28*28, test_size))
 
     train_label[0, 0:training_size] = 1
     validation_label[0, 0:validation_size] = 1
@@ -105,17 +105,17 @@ def part4():
 
     # For the rest of the digits
     for i in range(1, 10):
-        training_set = vstack((training_set, M["train"+str(i)][0:training_size].reshape((28*28, 1))))
-        validation_set = vstack((validation_set, M["train"+str(i)][training_size:training_size+validation_size].reshape((28*28, 1))))
-        test_set = vstack((test_set, M["train"+str(i)][training_size + validation_size:training_size+validation_size+test_set].reshape((28*28, 1))))
+        training_set = hstack((training_set, M["train"+str(i)][0:training_size].reshape((28*28, training_size))))
+        validation_set = hstack((validation_set, M["train"+str(i)][training_size:training_size+validation_size].reshape((28*28, validation_size))))
+        test_set = hstack((test_set, M["train"+str(i)][training_size + validation_size:training_size+validation_size+test_size].reshape((28*28, test_size))))
 
         train_label[i, i*training_size:i*training_size+training_size] = 1
         validation_label[i, i*validation_size:i*validation_size+validation_size] = 1
         test_label[i, i*test_size:i*test_size+test_size] = 1
 
-    training_set /= 255.0
-    validation_set /= 255.0
-    test_set /= 255.0    
+    training_set = training_set/255.0
+    validation_set = validation_set/255.0
+    test_set = test_set/255.0    
 
     # Load weights and biases
     snapshot = cPickle.load(open("snapshot50.pkl"))
@@ -127,7 +127,7 @@ def part4():
     init_W = np.dot(W0, W1)
     init_b = b1
 
-    alpha = 0.01
+    alpha = 0.001
 
     train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, init_W, init_b, alpha)
 
@@ -149,6 +149,6 @@ def part6():
 # part1()
 # part2()
 # part3()
-# part4()
+part4()
 # part5()
 # part6()

@@ -71,7 +71,7 @@ def gradient_simple_network_w(x, W, b, y):
 def gradient_simple_network_b(x, W, b, y):
     p = compute_simple_network(x, W, b)
 
-    return (p - y)
+    return np.sum((p - y), axis=1).reshape((10, 1))
 
 def check_finite_differences_w(x, W, b, y, h):
     for j in range(28*28):
@@ -88,7 +88,7 @@ def check_finite_differences_w(x, W, b, y, h):
             
             if actual_grad != 0:
                 print("Index: " + str(j) + ", " + str(i))
-                print("Actual Gradient Value: " + str(actual_grad))
+                print("Actual Gradient Value:   " + str(actual_grad))
                 print("Finite Difference Value: " + str(finite_diff_grad) + "\n")
 
 def check_finite_differences_b(x, W, b, y, h):
@@ -105,7 +105,7 @@ def check_finite_differences_b(x, W, b, y, h):
 
         if actual_grad != 0:
             print("Index: " + str(i))
-            print("Actual Gradient Value: " + str(actual_grad))
+            print("Actual Gradient Value:   " + str(actual_grad))
             print("Finite Difference Value: " + str(finite_diff_grad) + "\n")
 
 def performance(x, W, b, y):
@@ -117,7 +117,7 @@ def performance(x, W, b, y):
     for i in range(total):
         if (y[argmax(output[:, i]), i] == 1): correct += 1
 
-    return correct/float(total)
+    return 100 * correct/float(total)
 
 def train_nn(f, df_W, df_b, x, y, init_W, init_b, alpha, max_iter = 5000):
     EPS = 1e-10
@@ -136,7 +136,7 @@ def train_nn(f, df_W, df_b, x, y, init_W, init_b, alpha, max_iter = 5000):
 
         if itr % 500 == 0 or itr == max_iter - 1:
             print("Iteration: " + str(itr))
-            print("Performance: " + str(performance))
+            print("Performance: " + str(performance(x, W, b, y)) + "% \n")
 
         itr += 1
 
