@@ -86,8 +86,8 @@ M = loadmat("mnist_all.mat")
 
 # Set sizes for training, validation and testing sets for each digit
 training_size = 400
-validation_size = 20
-test_size = 20
+validation_size = 50
+test_size = 50
 
 # Make the three sets
 train_label = np.zeros((10, training_size * 10))
@@ -131,7 +131,7 @@ b1 = snapshot["b1"].reshape((10,1))
 init_W = np.dot(W0, W1)
 init_b = b1
 
-alpha = 0.001
+alpha = 0.0001
 
 W, b, epoch, train_perf, validation_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, validation_set, validation_label, test_set, test_label, init_W, init_b, alpha)
 
