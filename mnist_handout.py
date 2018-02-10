@@ -120,8 +120,8 @@ def performance(x, W, b, y):
     return 100 * correct/float(total)
 
 def train_nn(f, df_W, df_b, x_train, y_train, x_validation, y_validation, x_test, y_test, init_W, init_b, alpha, max_iter = 5000):
-    x = x_train[0:500]
-    y = y_train[0:500]
+    x = x_train
+    y = y_train
 
     epoch, train_perf, validation_perf, test_perf = [], [], [], []
 
@@ -153,7 +153,7 @@ def train_nn(f, df_W, df_b, x_train, y_train, x_validation, y_validation, x_test
             print("Epoch: " + str(epoch_i))
             print("Training Performance:   " + str(train_perf_i) + "%")
             print("Validation Performance: " + str(validation_perf_i) + "%")
-            print("Testing Performance:    " + str(test_perf_i) + "%")
+            print("Testing Performance:    " + str(test_perf_i) + "%\n")
 
         itr += 1
 
