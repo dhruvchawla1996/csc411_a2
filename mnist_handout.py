@@ -108,6 +108,40 @@ def check_finite_differences_b(x, W, b, y, h):
             print("Actual Gradient Value: " + str(actual_grad))
             print("Finite Difference Value: " + str(finite_diff_grad) + "\n")
 
+def performance(x, W, b, y):
+    total = x.shape[1]
+    correct = 0
+
+    output = compute_simple_network(x, W, b)
+
+    for i in range(total):
+        if (y[argmax(output[:, i]), i] == 1): correct += 1
+
+    return correct/float(total)
+
+def train_nn(f, df_W, df_b, x, y, init_W, init_b, alpha, max_iter = 5000):
+    EPS = 1e-10
+    prev_W = init_W - 10 * EPS
+    prev_b = init_b - 10 * EPS
+    W = init_W.copy()
+    b = init_b.copy()
+    itr = 0
+
+    while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
+        prev_W = W.copy()
+        prev_b = b.copy()
+
+        W -= alpha * df_W(x, W, b, y)
+        b -= alpha * df_b(x, W, b, y)
+
+        if itr % 500 == 0 or itr == max_iter - 1:
+            print("Iteration: " + str(itr))
+            print("Performance: " + str(performance))
+
+        itr += 1
+
+    return W, b
+
 ################################################################################
 # #Load sample weights for the multilayer neural network
 # snapshot = cPickle.load(open("snapshot50.pkl"))
