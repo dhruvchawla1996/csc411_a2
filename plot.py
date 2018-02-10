@@ -31,4 +31,4 @@ def plot_each_digit():
             axarr[i][j].imshow(M["train"+str(i)][j].reshape((28,28)), cmap=cm.gray)
             axarr[i][j].axis('off')
 
-    plt.savefig("part1.png")
+    plt.savefig("figures/part1.png")
