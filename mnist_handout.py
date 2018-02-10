@@ -46,9 +46,6 @@ def forward(x, W0, b0, W1, b1):
 def NLL(y, y_):
     return -sum(y_*log(y)) 
 
-def cost_fn(y, p):
-    return sum(NLL(y, p))
-
 def deriv_multilayer(W0, b0, W1, b1, x, L0, L1, y, y_):
     '''Incomplete function for computing the gradient of the cross-entropy
     cost function w.r.t the parameters of a neural network'''
@@ -58,10 +55,10 @@ def deriv_multilayer(W0, b0, W1, b1, x, L0, L1, y, y_):
 def compute_simple_network(x, W, b):
     '''Compute a simple network (with no hidden layers)
     '''
-    o = np.dot(W, x) + b
+    o = np.dot(W.T, x) + b
     return softmax(o)
 
-def gradient_simple_network(x, W, b, y):
+def gradient_simple_network_w(x, W, b, y):
     p = compute_simple_network(x, W, b)
 
     gradient_mat = np.zeros((28*28, 10))
@@ -71,22 +68,46 @@ def gradient_simple_network(x, W, b, y):
 
     return gradient_mat
 
-def check_finite_differences(x, W, b, y, h):
-    difference = 0
+def gradient_simple_network_b(x, W, b, y):
+    p = compute_simple_network(x, W, b)
 
+    return (p - y)
+
+def check_finite_differences_w(x, W, b, y, h):
     for j in range(28*28):
         for i in range(10):
             h_mat = np.zeros((28*28, 10))
             h_mat[j, i] = h
 
-            actual_grad = gradient_simple_network(x, W, b, y)[j, i]
+            actual_grad = gradient_simple_network_w(x, W, b, y)[j, i]
 
-            finite_diff_grad = (cost_fn(y, compute_simple_network(x, W+h_mat, b)) - cost_fn(y, compute_simple_network(x, W+, b))/h)
+            cost_fn = NLL(compute_simple_network(x, W, b), y)
+            cost_fn_h = NLL(compute_simple_network(x, W+h_mat, b), y)
 
-            difference += abs(actual_grad - finite_diff_grad)
+            finite_diff_grad = (cost_fn_h - cost_fn)/h
+            
+            if actual_grad != 0:
+                print("Index: " + str(j) + ", " + str(i))
+                print("Actual Gradient Value: " + str(actual_grad))
+                print("Finite Difference Value: " + str(finite_diff_grad) + "\n")
 
-    print("Average difference in approximation: " + str(difference/28*28*10))
-    
+def check_finite_differences_b(x, W, b, y, h):
+    for i in range(10):
+        h_mat = np.zeros((10, 1))
+        h_mat[i] = h
+
+        actual_grad = gradient_simple_network_b(x, W, b, y)[i, 0]
+
+        cost_fn = NLL(compute_simple_network(x, W, b), y)
+        cost_fn_h = NLL(compute_simple_network(x, W, b+h_mat), y)
+
+        finite_diff_grad = (cost_fn_h - cost_fn)/h
+
+        if actual_grad != 0:
+            print("Index: " + str(i))
+            print("Actual Gradient Value: " + str(actual_grad))
+            print("Finite Difference Value: " + str(finite_diff_grad) + "\n")
+
 ################################################################################
 # #Load sample weights for the multilayer neural network
 # snapshot = cPickle.load(open("snapshot50.pkl"))
