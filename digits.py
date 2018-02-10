@@ -127,7 +127,7 @@ def part4():
     init_W = np.dot(W0, W1)
     init_b = b1
 
-    alpha = 0.001
+    alpha = 0.0001
 
     train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, training_set, train_label, init_W, init_b, alpha)
 

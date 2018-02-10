@@ -18,8 +18,8 @@ from scipy.io import loadmat
 plt.switch_backend('agg')
 
 def plot_each_digit():
-    """Save 10 images of each of the 10 digits in the dataset
-    """
+    '''Save 10 images of each of the 10 digits in the dataset
+    '''
 
     #Load the MNIST digit data
     M = loadmat("mnist_all.mat")
@@ -32,3 +32,22 @@ def plot_each_digit():
             axarr[i][j].axis('off')
 
     plt.savefig("figures/part1.png")
+
+def plot_digit_weights(W):
+    for i in range(10):
+        fig = figure(i)
+        ax = fig.gca()
+        heatmap = ax.imshow(W[:, i].reshape((28,28)), cmap = cm.coolwarm)    
+        fig.colorbar(heatmap, shrink = 0.5, aspect=5)
+        savefig("figures/part4_"+str(i)+".png")
+
+def plot_learning_curves(epoch, train_perf, validation_perf, test_perf):
+    plt.plot(epoch, train_perf, color='k', linewidth=2, marker="o", label="Training Set")
+    plt.plot(epoch, validation_perf, color='b', linewidth=2, marker="o", label="Training Set")
+    plt.plot(epoch, test_perf, color='r', linewidth=2, marker="o", label="Training Set")
+
+    plt.title("Learning curve")
+    plt.xlabel("Epoch")
+    plt.ylabel("Performance (%)")
+    plt.legend()
+    plt.savefig("figures/part4_learning_curve.png")
