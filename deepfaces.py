@@ -35,8 +35,8 @@ act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill H
 # remove_bad_images()
 ############################################################################
 
-train_set, train_label = np.zeros((0, 32*32)), np.zeros((0, len(act)))
-test_set, test_label = np.zeros((0, 32*32)), np.zeros((0, len(act)))
+train_set, train_label = np.zeros((0, 64*64)), np.zeros((0, len(act)))
+test_set, test_label = np.zeros((0, 64*64)), np.zeros((0, len(act)))
 
 for i in range(len(act)):
     a_name = act[i].split()[1].lower()
@@ -52,7 +52,7 @@ for i in range(len(act)):
     train_label = np.vstack((train_label, np.tile(one_hot, (train_set_i.shape[0], 1))))
     test_label = np.vstack((test_label, np.tile(one_hot, (test_set_i.shape[0], 1))))
 
-dim_x = 32*32
+dim_x = 64*64
 dim_h = 300
 dim_out = len(act)
 

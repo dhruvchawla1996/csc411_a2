@@ -84,7 +84,7 @@ def get_and_crop_images(act):
                     rgb_img = imread("uncropped/"+filename)
                     grayscale_img = rgb2gray(rgb_img)
                     cropped_img = grayscale_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
-                    resized_img = imresize(cropped_img, (32, 32))
+                    resized_img = imresize(cropped_img, (64, 64))
                     imsave("cropped/"+filename, resized_img, cmap = plt.cm.gray)
 
                 except Exception as e:
@@ -151,19 +151,19 @@ def build_sets(actor):
     np.random.seed(5)
     np.random.shuffle(image_list)
 
-    train_set = np.zeros((0, 32*32))
-    test_set = np.zeros((0, 32*32))
+    train_set = np.zeros((0, 64*64))
+    test_set = np.zeros((0, 64*64))
 
     for img in image_list[:20]:
         t_img = imread("cropped/"+img)
         t_img = rgb2gray(t_img)
-        t_img = reshape(np.ndarray.flatten(t_img), [1, 32*32])
+        t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64])
         test_set = np.vstack((test_set, t_img))
 
     for img in image_list[20:]:
         tr_img = imread("cropped/"+img)
         tr_img = rgb2gray(tr_img)
-        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 32*32])
+        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64])
         train_set = np.vstack((train_set, tr_img))
 
     return train_set, test_set
