@@ -268,11 +268,11 @@ We also know that (from slide 7 of One-Hot Encoding Lecture),
 The partial derivative will be the following:
 
 \begin{equation}
-    \frac {\partial p_i} {\partial o_j} = \left \{
-        \begin{array}{lr}
+    \frac {\partial p_i} {\partial o_j} = 
+        \begin{cases}
             p_i (1 - p_i) &  i = j \\
-            - p_i p_j &  i \ne j
-  \end{array}\right
+            - p_i p_j &  i \ne j \
+  \end{cases}
 \end{equation}
 
 Computing the cost function with respect to the output:
@@ -348,12 +348,6 @@ def gradient_simple_network_b(x, W, b, y):
 
     return np.sum((p - y), axis=1).reshape((10, 1))
 \end{python}
-
-
-
-
-
-
 
 \end{homeworkProblem}
 \clearpage
