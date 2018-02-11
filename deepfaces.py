@@ -53,7 +53,7 @@ for i in range(len(act)):
     test_label = np.vstack((test_label, np.tile(one_hot, (test_set_i.shape[0], 1))))
 
 dim_x = 32*32
-dim_h = 20
+dim_h = 300
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
@@ -65,15 +65,14 @@ y_classes = Variable(torch.from_numpy(np.argmax(train_label[:], 1)), requires_gr
 
 model = torch.nn.Sequential(
     torch.nn.Linear(dim_x, dim_h),
-    torch.nn.ReLU(),
+    torch.nn.Sigmoid(),
     torch.nn.Linear(dim_h, dim_out),
 )
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-learning_rate = 1e-2
+learning_rate = 1e-4
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-print("Here")
 for t in range(10000):
     y_pred = model(x)
     loss = loss_fn(y_pred, y_classes)
@@ -83,11 +82,24 @@ for t in range(10000):
     optimizer.step()   # Use the gradient information to 
                        # make a step
 
-x = Variable(torch.from_numpy(test_set), requires_grad=False).type(dtype_float)
+    if t % 1000 == 0 or t == 10000 - 1:
+        print("Epoch: " + str(t))
 
-y_pred = model(x).data.numpy()
+        y_pred = model(x).data.numpy()
 
-print np.mean(np.argmax(y_pred, 1) == np.argmax(test_label, 1))
+        print("Training Set Performance: " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(train_label, 1))) * 100) + "%")        
+
+        x_test = Variable(torch.from_numpy(test_set), requires_grad=False).type(dtype_float)
+
+        y_pred = model(x_test).data.numpy()
+
+        print("Testing Set Performance:  " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(test_label, 1))) * 100) + "%\n")
+
+# x = Variable(torch.from_numpy(test_set), requires_grad=False).type(dtype_float)
+
+# y_pred = model(x).data.numpy()
+
+# print np.mean(np.argmax(y_pred, 1) == np.argmax(test_label, 1))
 
 ################################################################################
 # Part 9
