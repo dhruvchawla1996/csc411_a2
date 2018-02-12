@@ -57,10 +57,9 @@ dim_h = 300
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
-dtype_long = torch.LongTensor
 
 x = Variable(torch.from_numpy(train_set[:]), requires_grad=False).type(dtype_float)
-y_classes = Variable(torch.from_numpy(np.argmax(train_label[:], 1)), requires_grad=False).type(dtype_long)
+y = Variable(torch.from_numpy(train_label[:].astype(float)), requires_grad=False).type(dtype_float)
 
 
 b0 = Variable(torch.randn((1, dim_h)), requires_grad=True)
@@ -71,9 +70,7 @@ W1 = Variable(torch.randn((dim_h, dim_out)), requires_grad=True)
 
 logSoftMax = torch.nn.LogSoftmax()
 
-loss_fn = torch.nn.CrossEntropyLoss()
-
-learning_rate = 1e-4
+learning_rate = 1e-1
 for t in range(10000):
     y_out = nn_model(x, b0, W0, b1, W1)
 
@@ -91,16 +88,16 @@ for t in range(10000):
     b1.grad.data.zero_()
     W1.grad.data.zero_()
 
-    if t % 1000 == 0 or t == 10000 - 1:
+    if t % 100 == 0 or t == 10000 - 1:
         print("Epoch: " + str(t))
 
-        y_pred = nn_model(x).data.numpy()
+        y_pred = nn_model(x, b0, W0, b1, W1).data.numpy()
 
         print("Training Set Performance: " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(train_label, 1))) * 100) + "%")        
 
         x_test = Variable(torch.from_numpy(test_set), requires_grad=False).type(dtype_float)
 
-        y_pred = nn_model(x_test).data.numpy()
+        y_pred = nn_model(x_test, b0, W0, b1, W1).data.numpy()
 
         print("Testing Set Performance:  " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(test_label, 1))) * 100) + "%\n")
 
