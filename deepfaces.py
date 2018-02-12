@@ -53,7 +53,7 @@ for i in range(len(act)):
     test_label = np.vstack((test_label, np.tile(one_hot, (test_set_i.shape[0], 1))))
 
 dim_x = 64*64
-dim_h = 300
+dim_h = 30
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
@@ -68,10 +68,10 @@ W0 = Variable(torch.randn((dim_x, dim_h)), requires_grad=True)
 b1 = Variable(torch.randn((1, dim_out)), requires_grad=True)
 W1 = Variable(torch.randn((dim_h, dim_out)), requires_grad=True)
 
-logSoftMax = torch.nn.LogSoftmax()
+logSoftMax = torch.nn.LogSoftmax(dim=1)
 
-learning_rate = 1e-1
-for t in range(10000):
+learning_rate = 9e-1
+for t in range(1000):
     y_out = nn_model(x, b0, W0, b1, W1)
 
     loss = -torch.mean(torch.sum(y * logSoftMax(y_out), 1))
@@ -88,7 +88,7 @@ for t in range(10000):
     b1.grad.data.zero_()
     W1.grad.data.zero_()
 
-    if t % 100 == 0 or t == 10000 - 1:
+    if t % 100 == 0 or t == 1000 - 1:
         print("Epoch: " + str(t))
 
         y_pred = nn_model(x, b0, W0, b1, W1).data.numpy()
