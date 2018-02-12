@@ -212,7 +212,7 @@ Some of the images are straightforward to analyze and decipher while some are mo
 
 \textit{Compute Simple Neural Network}\\
 
-The function for computing dimple neural network (no hidden layers) is in \texttt{mnist\_handout.py} and is reproduced here.\\
+The function for computing simple neural network (no hidden layers) is in \texttt{mnist\_handout.py} and is reproduced here.\\
 
 \begin{python}
 def compute_simple_network(x, W, b):
@@ -248,14 +248,13 @@ An example of the function in action is seen below (and in \texttt{part2()} of \
 \subsection{Part 3(a)}
 Compute $\frac {\partial C} {\partial w_{ij}}$ (gradient of cost function with respect to a single weight)\\
 
-For one training case, the cost function is (from slide 6 of One-Hot Encoding Lecture):\\
+For one training case, the cost function is (from slide 6 of One-Hot Encoding Lecture):
 
 \begin{equation}
     C = - \sum_{j} y_{j} log p_{j}
 \end{equation}
 
 For $M$ training examples, the cost functions gets modified to:\\
-
 \begin{equation}
     C = - \sum_{m=1}^M \sum_{j} y_{j} log p_{j}
 \end{equation}
@@ -266,17 +265,89 @@ We also know that (from slide 7 of One-Hot Encoding Lecture),
     p_{i} = \frac {e^{o_i}} {\sum_{j} e^{o_j}}
 \end{equation}
 
-and 
+The partial derivative will be the following:
 
 \begin{equation}
-    \frac {\partial p_i} {\partial o_{i}} = p_i (1-p_i)
+    \frac {\partial p_i} {\partial o_j} = 
+        \begin{cases}
+            p_i (1 - p_i) &  i = j \\
+            - p_i p_j &  i \ne j \
+  \end{cases}
 \end{equation}
 
-This implies,
+Computing the cost function with respect to the output:
+\begin{equation}
+\frac {\partial C} {\partial o_i} = \sum_{j} \frac {\partial C} {\partial p_j}  \frac {\partial p_j} {\partial o_i}
+\end{equation}
 
 \begin{equation}
-    \frac {\partial C} {\partial o_{i}} = \sum_{j} \frac {\partial C} {\partial p_{j}} \frac {\partial p_{j}} {\partial o_{i}} = \sum_{j} 
+ = \frac {\partial C} {\partial p_i}  \frac {\partial p_i}{\partial o_i} - \sum_{j \ne i} \frac {\partial C} {\partial p_j}  \frac {\partial p_j}{\partial o_i}
 \end{equation}
+
+\begin{equation}
+ = - y_i (1 - p_i) + \sum_{j \ne i} y_j p_j
+\end{equation}
+
+\begin{equation}
+ = - y_i + p_i \sum_{j \ne i} y_j 
+\end{equation}
+
+\begin{equation}
+ =  p_i - y_i 
+\end{equation}
+
+Computing the O with respect to weight
+\begin{equation}
+    o_{i} = \sum_{j} w_{ji} x_{j} + b
+\end{equation}
+
+\begin{equation}
+    \frac {\partial o_i} {\partial w_{ij}} = \sum_j x_j
+\end{equation}
+
+
+Computing the cost function with respect to the weight
+\begin{equation}
+    \frac {\partial C} {\partial w_{ij}} =\sum_j \frac {\partial C} {\partial o_i} \frac {\partial o_i} {\partial w_{ij}} 
+\end{equation}
+
+we will get 
+\begin{equation}
+    \frac {\partial C} {\partial w_{ij}} = x_j (p_i - y_i)
+\end{equation}
+
+\clearpage
+
+%__________________________________
+
+\subsection{Part 3(b)}
+
+\textit{Compute Gradient of Cost Function with respect to Weight}\\
+
+The function for computing the gradient with respect to weight is in \texttt{mnist\_handout.py} and is reproduced here.\\
+
+\begin{python}
+def gradient_simple_network_w(x, W, b, y):
+    p = compute_simple_network(x, W, b)
+
+    gradient_mat = np.zeros((28*28, 10))
+
+    for j in range(28*28):
+        gradient_mat[j, :] = np.dot((p - y), x[j, :].T)
+
+    return gradient_mat
+\end{python}
+
+\textit{Compute Gradient of Cost Function with respect to Bias}\\
+
+The function for computing the gradient with respect to bias is in \texttt{mnist\_handout.py} and is reproduced here.\\
+
+\begin{python}
+def gradient_simple_network_b(x, W, b, y):
+    p = compute_simple_network(x, W, b)
+
+    return np.sum((p - y), axis=1).reshape((10, 1))
+\end{python}
 
 \end{homeworkProblem}
 \clearpage
