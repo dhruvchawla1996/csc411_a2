@@ -35,8 +35,8 @@ act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill H
 # remove_bad_images()
 ############################################################################
 
-train_set, train_label = np.zeros((0, 64*64)), np.zeros((0, len(act)))
-test_set, test_label = np.zeros((0, 64*64)), np.zeros((0, len(act)))
+train_set, train_label = np.zeros((0, 64*64*4)), np.zeros((0, len(act)))
+test_set, test_label = np.zeros((0, 64*64*4)), np.zeros((0, len(act)))
 
 for i in range(len(act)):
     a_name = act[i].split()[1].lower()
@@ -52,8 +52,8 @@ for i in range(len(act)):
     train_label = np.vstack((train_label, np.tile(one_hot, (train_set_i.shape[0], 1))))
     test_label = np.vstack((test_label, np.tile(one_hot, (test_set_i.shape[0], 1))))
 
-dim_x = 64*64
-dim_h = 30
+dim_x = 64*64*4
+dim_h = 300
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
@@ -70,8 +70,8 @@ W1 = Variable(torch.randn((dim_h, dim_out)), requires_grad=True)
 
 logSoftMax = torch.nn.LogSoftmax(dim=1)
 
-learning_rate = 9e-1
-for t in range(1000):
+learning_rate = 5e-2
+for t in range(2000):
     y_out = nn_model(x, b0, W0, b1, W1)
 
     loss = -torch.mean(torch.sum(y * logSoftMax(y_out), 1))
@@ -88,7 +88,7 @@ for t in range(1000):
     b1.grad.data.zero_()
     W1.grad.data.zero_()
 
-    if t % 100 == 0 or t == 1000 - 1:
+    if t % 100 == 0 or t == 2000 - 1:
         print("Epoch: " + str(t))
 
         y_pred = nn_model(x, b0, W0, b1, W1).data.numpy()

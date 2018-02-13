@@ -84,10 +84,9 @@ def get_and_crop_images(act):
 
                 try:
                     rgb_img = imread("uncropped/"+filename)
-                    grayscale_img = rgb2gray(rgb_img)
-                    cropped_img = grayscale_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
+                    cropped_img = rgb_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
                     resized_img = imresize(cropped_img, (64, 64))
-                    imsave("cropped/"+filename, resized_img, cmap = plt.cm.gray)
+                    imsave("cropped/"+filename, resized_img)
 
                 except Exception as e:
                     print(str(e))
@@ -153,44 +152,28 @@ def build_sets(actor):
     np.random.seed(5)
     np.random.shuffle(image_list)
 
-    train_set = np.zeros((0, 64*64))
-    test_set = np.zeros((0, 64*64))
+    train_set = np.zeros((0, 64*64*4))
+    test_set = np.zeros((0, 64*64*4))
 
     for img in image_list[:20]:
         t_img = imread("cropped/"+img)
-        t_img = rgb2gray(t_img)
-        t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64])
+        t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64*4])
+        t_img = t_img/128. - 1.
         test_set = np.vstack((test_set, t_img))
 
     for img in image_list[20:]:
         tr_img = imread("cropped/"+img)
-        tr_img = rgb2gray(tr_img)
-        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64])
+        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64*4])
+        tr_img = tr_img/128. - 1.
         train_set = np.vstack((train_set, tr_img))
 
     return train_set, test_set
-
-################################################################################
-# Converting images to grayscale
-################################################################################
-def rgb2gray(rgb):
-    '''Return the grayscale version of the RGB image rgb as a 2D numpy array
-    whose range is 0..1
-    Arguments:
-    rgb -- an RGB image, represented as a numpy array of size n x m x 3. The
-    range of the values is 0..255
-    '''
-    
-    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
-    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
-
-    return (gray/128.) - 1.
 
 ################################################################################
 # Neural Net Model - One hidden layer
 ################################################################################
 def nn_model(x, b0, W0, b1, W1):
     # Define model here
-    h = torch.nn.Sigmoid()(torch.matmul(x, W0) + b0.repeat(x.data.shape[0], 1))
+    h = torch.nn.Tanh()(torch.matmul(x, W0) + b0.repeat(x.data.shape[0], 1))
     out = torch.matmul(h, W1) + b1.repeat(x.data.shape[0], 1)
     return out
