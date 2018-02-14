@@ -56,7 +56,8 @@ for i in range(len(act)):
 torch.manual_seed(5)
 
 dim_x = 64*64*3
-dim_h = 300
+dim_h0 = 300
+dim_h1 = 50
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
@@ -67,14 +68,16 @@ y_classes = Variable(torch.from_numpy(np.argmax(train_label[:], 1)), requires_gr
 
 
 model = torch.nn.Sequential(
-    torch.nn.Linear(dim_x, dim_h),
+    torch.nn.Linear(dim_x, dim_h0),
     torch.nn.ReLU(),
-    torch.nn.Linear(dim_h, dim_out),
+    torch.nn.Linear(dim_h0, dim_h1),
+    torch.nn.ReLU(),
+    torch.nn.Linear(dim_h1, dim_out),
 )
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-learning_rate, max_iter = 1e-5, 1000
+learning_rate, max_iter = 1e-4, 250
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 for t in range(max_iter):
     y_pred = model(x)
