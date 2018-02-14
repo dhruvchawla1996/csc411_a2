@@ -114,7 +114,7 @@ alpha = 0.00001
 
 W, b, epoch, train_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
-plot_learning_curves(epoch, train_perf, test_perf)
+plot_learning_curves("part4", epoch, train_perf, test_perf)
 plot_digit_weights(W)
 
 ################################################################################
