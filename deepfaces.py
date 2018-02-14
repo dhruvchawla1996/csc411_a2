@@ -56,15 +56,19 @@ def part8():
     torch.manual_seed(5)
 
     dim_x = 64*64*3
-    dim_h0 = 300
-    dim_h1 = 50
+    dim_h0 = 250
+    dim_h1 = 40
     dim_out = len(act)
 
     dtype_float = torch.FloatTensor
     dtype_long = torch.LongTensor
 
-    x = Variable(torch.from_numpy(train_set[:]), requires_grad=False).type(dtype_float)
-    y_classes = Variable(torch.from_numpy(np.argmax(train_label[:], 1)), requires_grad=False).type(dtype_long)
+    # Using mini-batches for training
+    np.random.seed(5)
+    train_idx = np.random.permutation(range(train_set.shape[0]))[:600]
+
+    x = Variable(torch.from_numpy(train_set[train_idx]), requires_grad=False).type(dtype_float)
+    y_classes = Variable(torch.from_numpy(np.argmax(train_label[train_idx], 1)), requires_grad=False).type(dtype_long)
 
 
     model = torch.nn.Sequential(
@@ -79,7 +83,7 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 250
+    learning_rate, max_iter = 1e-4, 200
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = model(x)
@@ -90,12 +94,12 @@ def part8():
         optimizer.step()   # Use the gradient information to 
                            # make a step
 
-        if t % 50 == 0 or t == max_iter - 1:
+        if t % 20 == 0 or t == max_iter - 1:
             print("Epoch: " + str(t))
 
             # Training Performance
-
-            y_pred = model(x).data.numpy()
+            x_train = Variable(torch.from_numpy(train_set[:]), requires_grad=False).type(dtype_float)
+            y_pred = model(x_train).data.numpy()
             train_perf_i = (np.mean(np.argmax(y_pred, 1) == np.argmax(train_label, 1))) * 100
             print("Training Set Performance: " + str(train_perf_i) + "%")      
 
