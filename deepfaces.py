@@ -35,8 +35,8 @@ act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill H
 # remove_bad_images()
 ############################################################################
 
-train_set, train_label = np.zeros((0, 64*64*4)), np.zeros((0, len(act)))
-test_set, test_label = np.zeros((0, 64*64*4)), np.zeros((0, len(act)))
+train_set, train_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
+test_set, test_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
 
 for i in range(len(act)):
     a_name = act[i].split()[1].lower()
@@ -52,7 +52,10 @@ for i in range(len(act)):
     train_label = np.vstack((train_label, np.tile(one_hot, (train_set_i.shape[0], 1))))
     test_label = np.vstack((test_label, np.tile(one_hot, (test_set_i.shape[0], 1))))
 
-dim_x = 64*64*4
+# Set seed value for generating initial weights
+torch.manual_seed(5)
+
+dim_x = 64*64*3
 dim_h = 300
 dim_out = len(act)
 
@@ -71,7 +74,7 @@ model = torch.nn.Sequential(
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-learning_rate, max_iter = 1e-4, 10000
+learning_rate, max_iter = 1e-5, 1000
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 for t in range(max_iter):
     y_pred = model(x)
@@ -82,7 +85,7 @@ for t in range(max_iter):
     optimizer.step()   # Use the gradient information to 
                        # make a step
 
-    if t % 1000 == 0 or t == max_iter - 1:
+    if t % 50 == 0 or t == max_iter - 1:
         print("Epoch: " + str(t))
 
         y_pred = model(x).data.numpy()

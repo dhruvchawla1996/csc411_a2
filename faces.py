@@ -152,28 +152,37 @@ def build_sets(actor):
     np.random.seed(5)
     np.random.shuffle(image_list)
 
-    train_set = np.zeros((0, 64*64*4))
-    test_set = np.zeros((0, 64*64*4))
+    train_set = np.zeros((0, 64*64*3))
+    test_set = np.zeros((0, 64*64*3))
 
     for img in image_list[:20]:
         t_img = imread("cropped/"+img)
-        t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64*4])
+        t_img = t_img[:, :, :3]
+        t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64*3])
         t_img = t_img/128. - 1.
         test_set = np.vstack((test_set, t_img))
 
     for img in image_list[20:]:
         tr_img = imread("cropped/"+img)
-        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64*4])
+        tr_img = tr_img[:, :, :3]
+        tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64*3])
         tr_img = tr_img/128. - 1.
         train_set = np.vstack((train_set, tr_img))
 
     return train_set, test_set
 
 ################################################################################
-# Neural Net Model - One hidden layer
+# Convert RGB images to grayscale 
 ################################################################################
-# def nn_model(x, b0, W0, b1, W1):
-#     # Define model here
-#     h = torch.nn.Tanh()(torch.matmul(x, W0) + b0.repeat(x.data.shape[0], 1))
-#     out = torch.matmul(h, W1) + b1.repeat(x.data.shape[0], 1)
-#     return out
+def rgb2gray(rgb):
+    '''Return the grayscale version of the RGB image rgb as a 2D numpy array
+    whose range is 0..1
+    Arguments:
+    rgb -- an RGB image, represented as a numpy array of size n x m x 3. The
+    range of the values is 0..255
+    '''
+    
+    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
+
+    return gray/255.
