@@ -57,47 +57,41 @@ dim_h = 300
 dim_out = len(act)
 
 dtype_float = torch.FloatTensor
+dtype_long = torch.LongTensor
 
 x = Variable(torch.from_numpy(train_set[:]), requires_grad=False).type(dtype_float)
-y = Variable(torch.from_numpy(train_label[:].astype(float)), requires_grad=False).type(dtype_float)
+y_classes = Variable(torch.from_numpy(np.argmax(train_label[:], 1)), requires_grad=False).type(dtype_long)
 
 
-b0 = Variable(torch.randn((1, dim_h)), requires_grad=True)
-W0 = Variable(torch.randn((dim_x, dim_h)), requires_grad=True)
+model = torch.nn.Sequential(
+    torch.nn.Linear(dim_x, dim_h),
+    torch.nn.ReLU(),
+    torch.nn.Linear(dim_h, dim_out),
+)
 
-b1 = Variable(torch.randn((1, dim_out)), requires_grad=True)
-W1 = Variable(torch.randn((dim_h, dim_out)), requires_grad=True)
+loss_fn = torch.nn.CrossEntropyLoss()
 
-logSoftMax = torch.nn.LogSoftmax(dim=1)
-
-learning_rate = 5e-2
-for t in range(2000):
-    y_out = nn_model(x, b0, W0, b1, W1)
-
-    loss = -torch.mean(torch.sum(y * logSoftMax(y_out), 1))
-    loss.backward()
-
-    b0.data -= learning_rate * b0.grad.data
-    W0.data -= learning_rate * W0.grad.data
+learning_rate, max_iter = 1e-4, 10000
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+for t in range(max_iter):
+    y_pred = model(x)
+    loss = loss_fn(y_pred, y_classes)
     
-    b1.data -= learning_rate * b1.grad.data
-    W1.data -= learning_rate * W1.grad.data
+    model.zero_grad()  # Zero out the previous gradient computation
+    loss.backward()    # Compute the gradient
+    optimizer.step()   # Use the gradient information to 
+                       # make a step
 
-    b0.grad.data.zero_()
-    W0.grad.data.zero_()
-    b1.grad.data.zero_()
-    W1.grad.data.zero_()
-
-    if t % 100 == 0 or t == 2000 - 1:
+    if t % 1000 == 0 or t == max_iter - 1:
         print("Epoch: " + str(t))
 
-        y_pred = nn_model(x, b0, W0, b1, W1).data.numpy()
+        y_pred = model(x).data.numpy()
 
         print("Training Set Performance: " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(train_label, 1))) * 100) + "%")        
 
         x_test = Variable(torch.from_numpy(test_set), requires_grad=False).type(dtype_float)
 
-        y_pred = nn_model(x_test, b0, W0, b1, W1).data.numpy()
+        y_pred = model(x_test).data.numpy()
 
         print("Testing Set Performance:  " + str((np.mean(np.argmax(y_pred, 1) == np.argmax(test_label, 1))) * 100) + "%\n")
 

@@ -172,8 +172,8 @@ def build_sets(actor):
 ################################################################################
 # Neural Net Model - One hidden layer
 ################################################################################
-def nn_model(x, b0, W0, b1, W1):
-    # Define model here
-    h = torch.nn.Tanh()(torch.matmul(x, W0) + b0.repeat(x.data.shape[0], 1))
-    out = torch.matmul(h, W1) + b1.repeat(x.data.shape[0], 1)
-    return out
+# def nn_model(x, b0, W0, b1, W1):
+#     # Define model here
+#     h = torch.nn.Tanh()(torch.matmul(x, W0) + b0.repeat(x.data.shape[0], 1))
+#     out = torch.matmul(h, W1) + b1.repeat(x.data.shape[0], 1)
+#     return out
