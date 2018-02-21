@@ -56,8 +56,7 @@ def part8():
     torch.manual_seed(5)
 
     dim_x = 64*64*3
-    dim_h0 = 250
-    dim_h1 = 40
+    dim_h = 600
     dim_out = len(act)
 
     dtype_float = torch.FloatTensor
@@ -65,25 +64,23 @@ def part8():
 
     # Using mini-batches for training
     np.random.seed(5)
-    train_idx = np.random.permutation(range(train_set.shape[0]))[:600]
+    train_idx = np.random.permutation(range(train_set.shape[0]))[:]
 
     x = Variable(torch.from_numpy(train_set[train_idx]), requires_grad=False).type(dtype_float)
     y_classes = Variable(torch.from_numpy(np.argmax(train_label[train_idx], 1)), requires_grad=False).type(dtype_long)
 
 
     model = torch.nn.Sequential(
-        torch.nn.Linear(dim_x, dim_h0),
+        torch.nn.Linear(dim_x, dim_h),
         torch.nn.ReLU(),
-        torch.nn.Linear(dim_h0, dim_h1),
-        torch.nn.ReLU(),
-        torch.nn.Linear(dim_h1, dim_out),
+        torch.nn.Linear(dim_h, dim_out),
     )
 
     loss_fn = torch.nn.CrossEntropyLoss()
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 200
+    learning_rate, max_iter = 1e-4, 2000
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = model(x)
