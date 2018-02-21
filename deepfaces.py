@@ -64,11 +64,12 @@ def part8():
 
     # Using mini-batches for training
     np.random.seed(5)
-    train_idx = np.random.permutation(range(train_set.shape[0]))[:]
+    train_idx = np.random.permutation(range(train_set.shape[0]))[:600]
 
     x = Variable(torch.from_numpy(train_set[train_idx]), requires_grad=False).type(dtype_float)
     y_classes = Variable(torch.from_numpy(np.argmax(train_label[train_idx], 1)), requires_grad=False).type(dtype_long)
 
+    mini_batch_size = 20
 
     model = torch.nn.Sequential(
         torch.nn.Linear(dim_x, dim_h),
@@ -83,7 +84,7 @@ def part8():
     learning_rate, max_iter = 1e-4, 2000
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
-        y_pred = model(x)
+        y_pred = model(x[(t*mini_batch_size)%600:((t+1)*mini_batch_size)%600])
         loss = loss_fn(y_pred, y_classes)
         
         model.zero_grad()  # Zero out the previous gradient computation
