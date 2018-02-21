@@ -81,18 +81,18 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 2000
+    learning_rate, max_iter = 1e-4, 900
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
-        y_pred = model(x[(t*mini_batch_size)%600:((t+1)*mini_batch_size)%600])
-        loss = loss_fn(y_pred, y_classes)
+        y_pred = model(x[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
+        loss = loss_fn(y_pred, y_classes[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
         
         model.zero_grad()  # Zero out the previous gradient computation
         loss.backward()    # Compute the gradient
         optimizer.step()   # Use the gradient information to 
                            # make a step
 
-        if t % 20 == 0 or t == max_iter - 1:
+        if t % 100 == 0 or t == max_iter - 1:
             print("Epoch: " + str(t))
 
             # Training Performance

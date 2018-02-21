@@ -66,20 +66,20 @@ def plot_learning_curves(part, epoch, train_perf, test_perf):
     plt.legend()
     plt.savefig("figures/" + part + "_learning_curve.png")
 
-def plot_trajectory(part, w1, w2)
-    gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
-    mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
-    w1 = np.arange(-0, 1, 0.05)
-    w2 = np.arange(-0, 1, 0.05)
-    w1z, w2z = np.meshgrid(w1s, w2s)
-    C = np.zeros([w1s.size, w2s.size])
-    for i, w1 in enumerate(w1s):
-        for j, w2 in enumerate(w2s):
-            C[j,i] = get_loss(w1, w
-    CS = plt.contour(w1z, w2z, C, camp=cm.coolwarm)
-    plt.plot([a for a, b in gd_traj], [b for a,b in gd_traj], 'yo-', label="No Momentum")
-    plt.plot([a for a, b in mo_traj], [b for a,b in mo_traj], 'go-', label="Momentum")
-    plt.legend(loc='top left')
-    plt.title('Contour plot')
-    plt.savefig("figures/" + part + "_learning_curve.png")
+#def plot_trajectory(part, w1, w2)
+#    gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
+#    mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
+#    w1 = np.arange(-0, 1, 0.05)
+#    w2 = np.arange(-0, 1, 0.05)
+#    w1z, w2z = np.meshgrid(w1s, w2s)
+#    C = np.zeros([w1s.size, w2s.size])
+#    for i, w1 in enumerate(w1s):
+#        for j, w2 in enumerate(w2s):
+#            C[j,i] = get_loss(w1, w
+#    CS = plt.contour(w1z, w2z, C, camp=cm.coolwarm)
+#    plt.plot([a for a, b in gd_traj], [b for a,b in gd_traj], 'yo-', label="No Momentum")
+#    plt.plot([a for a, b in mo_traj], [b for a,b in mo_traj], 'go-', label="Momentum")
+#    plt.legend(loc='top left')
+#    plt.title('Contour plot')
+#    plt.savefig("figures/" + part + "_learning_curve.png")
 
