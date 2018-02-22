@@ -31,8 +31,8 @@ def part8():
     # Uncomment if images need to be downloaded in ./cropped/ folder
     # If it doesn't work, unzip cropped.zip
     ############################################################################
-    # get_and_crop_images(act)
-    # remove_bad_images()
+    get_and_crop_images(act)
+    remove_bad_images()
     ############################################################################
 
     train_set, train_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
@@ -145,11 +145,13 @@ def part9():
     for i in range(10):
         h_max_i.append(np.argmax(h))
         h[h_max_i[-1]] = 0
-
+        
+    ctr = 0
     for i in h_max_i:
         W_i = W[i, :].reshape((64, 64, 3))
-        W_i = W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2]
-        imsave("figures/bracco/part9_bracco_"+str(i)+".jpg", W_i, cmap = "RdBu")
+        W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
+        imsave("figures/bracco/part9_bracco_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        ctr = ctr + 1
 
 ################################################################################
 # Part 10
