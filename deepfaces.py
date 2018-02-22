@@ -153,15 +153,45 @@ def part9():
         imsave("figures/bracco/part9_bracco_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
         ctr = ctr + 1
 
+    # Let's open an image for Baldwin and see which hidden neurons are firing more
+    img = imread("cropped/baldwin37.jpg")
+    img = img[:, :, :3]
+    img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
+    img = img/128. - 1.
+
+    h = myReLU(np.dot(W, img.T) + b)
+    h = softmax(h)
+    h_max_i = []
+
+    # Get 10 most active neuron's indices
+    for i in range(10):
+        h_max_i.append(np.argmax(h))
+        h[h_max_i[-1]] = 0
+        
+    ctr = 0
+    for i in h_max_i:
+        W_i = W[i, :].reshape((64, 64, 3))
+        W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
+        imsave("figures/bracco/part9_baldwin_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        ctr = ctr + 1
+
 ################################################################################
 # Part 10
 ################################################################################
-def part10():
-    pass
+# def part10():
+# Actors for training and validation set
+act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+
+# Uncomment if images need to be downloaded in ./cropped/ folder
+# If it doesn't work, unzip cropped.zip
+############################################################################
+get_and_crop_images227(act)
+remove_bad_images227()
+############################################################################
 
 ################################################################################
 # Function calls
 ################################################################################
-part8()
-part9()
+# part8()
+# part9()
 # part10()
