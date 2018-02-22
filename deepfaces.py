@@ -31,8 +31,8 @@ def part8():
     # Uncomment if images need to be downloaded in ./cropped/ folder
     # If it doesn't work, unzip cropped.zip
     ############################################################################
-    get_and_crop_images(act)
-    remove_bad_images()
+    # get_and_crop_images(act)
+    # remove_bad_images()
     ############################################################################
 
     train_set, train_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
@@ -81,7 +81,7 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 400
+    learning_rate, max_iter = 1e-4, 40
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = model(x[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
