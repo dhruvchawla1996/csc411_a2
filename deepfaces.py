@@ -148,8 +148,8 @@ for i in range(10):
 
 for i in h_max_i:
     W_i = W[i, :].reshape((64, 64, 3))
-    # W_i = rgb2gray(W_i)
-    imsave("figures/bracco/part9_bracco_"+str(i)+".jpg", W_i[::,0], cmap = "RdBu")
+    W_i = W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2]
+    imsave("figures/bracco/part9_bracco_"+str(i)+".jpg", W_i, cmap = "RdBu")
 
 ################################################################################
 # Part 10
