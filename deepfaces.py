@@ -114,6 +114,13 @@ def part8():
 
     plot_learning_curves("part8", epoch, train_perf, test_perf)
 
+    # Save first layer's parameters in a pickle file (for part 9)
+    model_params = {}
+    model_params["W"] = model[0].weight.data.numpy()
+    model_params["b"] = model[0].bias.data.numpy()
+
+    cPickle.dump(model_params, open("part8_model_params.pkl", "wb"))
+
 ################################################################################
 # Part 9
 ################################################################################
