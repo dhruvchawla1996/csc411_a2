@@ -137,10 +137,19 @@ img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
 img = img/128. - 1.
 
 h = myReLU(np.dot(W, img) + b)
+h = softmax(h)
 
-for i in range(len(h)):
-    if h[i] == 1:
-        print("Found a neuron")
+h_max_i = []
+
+# Get 10 most active neuron's indices
+for i in range(10):
+    h_max_i.append(np.argmax(h))
+    h[h_max_i[-1]] = 0
+
+for i in h_max_i:
+    W_i = W[i, :].reshape((64, 64, 3))
+    W_i = rgb2gray(W_i)
+    imsave("part9_bracco_"+i+".jpg", W_i, cmap = "RdBu")
 
 ################################################################################
 # Part 10
