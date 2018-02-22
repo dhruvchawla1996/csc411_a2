@@ -31,8 +31,8 @@ def part8():
     # Uncomment if images need to be downloaded in ./cropped/ folder
     # If it doesn't work, unzip cropped.zip
     ############################################################################
-    # get_and_crop_images(act)
-    # remove_bad_images()
+    # get_and_crop_images(act, 64)
+    # remove_bad_images(64)
     ############################################################################
 
     train_set, train_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
@@ -185,8 +185,8 @@ act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill H
 # Uncomment if images need to be downloaded in ./cropped/ folder
 # If it doesn't work, unzip cropped.zip
 ############################################################################
-get_and_crop_images227(act)
-remove_bad_images227()
+get_and_crop_images(act, 227)
+remove_bad_images(227)
 ############################################################################
 
 ################################################################################

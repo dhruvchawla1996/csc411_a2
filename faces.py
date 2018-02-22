@@ -46,7 +46,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
 testfile = urllib.URLopener()            
 
 
-def get_and_crop_images(act):
+def get_and_crop_images(act, size):
     '''Downloads images from faces_subset.txt
     Stores raw images into ./uncropped and processes them into 32x32 grayscale images in ./cropped
 
@@ -56,12 +56,12 @@ def get_and_crop_images(act):
     Stores images as lastname_i.jpg. Ex: giplin1.jpg
     '''
     # Remove folders cropped/ and uncropped/
-    if os.path.exists('./cropped'): shutil.rmtree('./cropped')
-    if os.path.exists('./uncropped'): shutil.rmtree('./uncropped')
+    if os.path.exists('./cropped'+str(size)): shutil.rmtree('./cropped'+str(size))
+    if os.path.exists('./uncropped'+str(size)): shutil.rmtree('./uncropped'+str(size))
 
     # Create cropped/ and uncropped/
-    if not os.path.exists('./cropped'): os.makedirs('cropped')
-    if not os.path.exists('./uncropped'): os.makedirs('uncropped')
+    if not os.path.exists('./cropped'+str(size)): os.makedirs('cropped'+str(size))
+    if not os.path.exists('./uncropped'+str(size)): os.makedirs('uncropped'+str(size))
 
     for a in act:
         name = a.split()[1].lower()
@@ -73,20 +73,20 @@ def get_and_crop_images(act):
                 #unsupress exceptions, which timeout() does)
                 #testfile.retrieve(line.split()[4], "uncropped/"+filename)
                 #timeout is used to stop downloading images which take too long to download
-                timeout(testfile.retrieve, (line.split()[4], "uncropped/"+filename), {}, 45)
+                timeout(testfile.retrieve, (line.split()[4], "uncropped"+str(size)+"/"+filename), {}, 45)
 
                 crop_bbox = line.split()[5].split(',')
                 sha256_hash = line.split()[6]
 
                 # Convert uncropped image to cropped 32x32 grayscale
-                if not os.path.isfile("uncropped/"+filename):
+                if not os.path.isfile("uncropped"+str(size)+"/"+filename):
                     continue
 
                 try:
-                    rgb_img = imread("uncropped/"+filename)
+                    rgb_img = imread("uncropped"+str(size)+"/"+filename)
                     cropped_img = rgb_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
                     resized_img = imresize(cropped_img, (64, 64))
-                    imsave("cropped/"+filename, resized_img)
+                    imsave("cropped"+str(size)+"/"+filename, resized_img)
 
                 except Exception as e:
                     print(str(e))
@@ -94,55 +94,7 @@ def get_and_crop_images(act):
                 print filename
                 i += 1
 
-def get_and_crop_images_227(act):
-    '''Downloads images from faces_subset.txt
-    Stores raw images into ./uncropped and processes them into 32x32 grayscale images in ./cropped
-
-    Requires: faces_subset.txt as obtained from the FaceScrub dataset
-                act: list of actor names
-
-    Stores images as lastname_i.jpg. Ex: giplin1.jpg
-    '''
-    # Remove folders cropped/ and uncropped/
-    if os.path.exists('./cropped227'): shutil.rmtree('./cropped227')
-    if os.path.exists('./uncropped227'): shutil.rmtree('./uncropped227')
-
-    # Create cropped/ and uncropped/
-    if not os.path.exists('./cropped227'): os.makedirs('cropped227')
-    if not os.path.exists('./uncropped227'): os.makedirs('uncropped227')
-
-    for a in act:
-        name = a.split()[1].lower()
-        i = 0
-        for line in open("faces_subset.txt"):
-            if a in line:
-                filename = name+str(i)+'.'+line.split()[4].split('.')[-1]
-                #A version without timeout (uncomment in case you need to
-                #unsupress exceptions, which timeout() does)
-                #testfile.retrieve(line.split()[4], "uncropped/"+filename)
-                #timeout is used to stop downloading images which take too long to download
-                timeout(testfile.retrieve, (line.split()[4], "uncropped227/"+filename), {}, 45)
-
-                crop_bbox = line.split()[5].split(',')
-                sha256_hash = line.split()[6]
-
-                # Convert uncropped image to cropped 32x32 grayscale
-                if not os.path.isfile("uncropped227/"+filename):
-                    continue
-
-                try:
-                    rgb_img = imread("uncropped227/"+filename)
-                    cropped_img = rgb_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
-                    resized_img = imresize(cropped_img, (64, 64))
-                    imsave("cropped227/"+filename, resized_img)
-
-                except Exception as e:
-                    print(str(e))
-
-                print filename
-                i += 1
-
-def remove_bad_images():
+def remove_bad_images(size):
     '''Removes bad images from list (manually chosen)
     Requires: cropped images in ./cropped
     '''
@@ -171,40 +123,8 @@ def remove_bad_images():
                             "vartan72"]
 
     for filename in bad_image_filenames:
-        if os.path.isfile("cropped/"+filename+".jpg"):
-            os.remove("cropped/"+filename+".jpg")
-
-def remove_bad_images227():
-    '''Removes bad images from list (manually chosen)
-    Requires: cropped images in ./cropped
-    '''
-    bad_image_filenames = ["baldwin68",
-                            "bracco90",
-                            "bracco64",
-                            "butler131",
-                            "butler132",
-                            "carell93",
-                            "chenoweth29",
-                            "chenoweth80",
-                            "chenoweth94",
-                            "drescher106",
-                            "drescher109",
-                            "drescher124",
-                            "drescher88",
-                            "ferrera159",
-                            "ferrera123",
-                            "hader4",
-                            "hader63",
-                            "hader77",
-                            "hader98",
-                            "harmon50",
-                            "radcliffe28",
-                            "vartan59",
-                            "vartan72"]
-
-    for filename in bad_image_filenames:
-        if os.path.isfile("cropped227/"+filename+".jpg"):
-            os.remove("cropped227/"+filename+".jpg")
+        if os.path.isfile("cropped"+str(size)+"/"+filename+".jpg"):
+            os.remove("cropped"+str(size)+"/"+filename+".jpg")
 
 ################################################################################
 # Building training, validation and testing sets for an actor
