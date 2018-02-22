@@ -128,7 +128,7 @@ def part8():
 # Load weights from the model of part8
 snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
 W = snapshot["W"]
-b = snapshot["b"]
+b = snapshot["b"].reshape((b.shape[0], 1))
 
 # Let's open an image for Bracco and see which hidden neurons are firing more
 img = imread("cropped/bracco35.jpg")
@@ -138,7 +138,6 @@ img = img/128. - 1.
 
 h = myReLU(np.dot(W, img) + b)
 h = softmax(h)
-
 h_max_i = []
 
 # Get 10 most active neuron's indices
