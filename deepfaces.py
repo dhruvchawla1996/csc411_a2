@@ -31,8 +31,8 @@ def part8():
     # Uncomment if images need to be downloaded in ./cropped/ folder
     # If it doesn't work, unzip cropped.zip
     ############################################################################
-    # get_and_crop_images(act)
-    # remove_bad_images()
+    # get_and_crop_images(act, 64)
+    # remove_bad_images(64)
     ############################################################################
 
     train_set, train_label = np.zeros((0, 64*64*3)), np.zeros((0, len(act)))
@@ -81,7 +81,7 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 900
+    learning_rate, max_iter = 1e-4, 40
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = model(x[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
@@ -124,37 +124,70 @@ def part8():
 ################################################################################
 # Part 9
 ################################################################################
-# def part9():
-# Load weights from the model of part8
-snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
-W = snapshot["W"]
-b = snapshot["b"].reshape((b.shape[0], 1))
+def part9():
+    # Load weights from the model of part8
+    snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
+    W = snapshot["W"]
+    b = snapshot["b"]
+    b = b.reshape((b.shape[0], 1))
 
-# Let's open an image for Bracco and see which hidden neurons are firing more
-img = imread("cropped/bracco35.jpg")
-img = img[:, :, :3]
-img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
-img = img/128. - 1.
+    # Let's open an image for Bracco and see which hidden neurons are firing more
+    img = imread("cropped/bracco35.jpg")
+    img = img[:, :, :3]
+    img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
+    img = img/128. - 1.
 
-h = myReLU(np.dot(W, img) + b)
-h = softmax(h)
-h_max_i = []
+    h = myReLU(np.dot(W, img.T) + b)
+    h = softmax(h)
+    h_max_i = []
 
-# Get 10 most active neuron's indices
-for i in range(10):
-    h_max_i.append(np.argmax(h))
-    h[h_max_i[-1]] = 0
+    # Get 10 most active neuron's indices
+    for i in range(10):
+        h_max_i.append(np.argmax(h))
+        h[h_max_i[-1]] = 0
+        
+    ctr = 0
+    for i in h_max_i:
+        W_i = W[i, :].reshape((64, 64, 3))
+        W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
+        imsave("figures/bracco/part9_bracco_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        ctr = ctr + 1
 
-for i in h_max_i:
-    W_i = W[i, :].reshape((64, 64, 3))
-    W_i = rgb2gray(W_i)
-    imsave("part9_bracco_"+i+".jpg", W_i, cmap = "RdBu")
+    # Let's open an image for Baldwin and see which hidden neurons are firing more
+    img = imread("cropped/baldwin37.jpg")
+    img = img[:, :, :3]
+    img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
+    img = img/128. - 1.
+
+    h = myReLU(np.dot(W, img.T) + b)
+    h = softmax(h)
+    h_max_i = []
+
+    # Get 10 most active neuron's indices
+    for i in range(10):
+        h_max_i.append(np.argmax(h))
+        h[h_max_i[-1]] = 0
+        
+    ctr = 0
+    for i in h_max_i:
+        W_i = W[i, :].reshape((64, 64, 3))
+        W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
+        imsave("figures/bracco/part9_baldwin_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        ctr = ctr + 1
 
 ################################################################################
 # Part 10
 ################################################################################
-def part10():
-    pass
+# def part10():
+# Actors for training and validation set
+act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+
+# Uncomment if images need to be downloaded in ./cropped/ folder
+# If it doesn't work, unzip cropped.zip
+############################################################################
+get_and_crop_images(act, 227)
+remove_bad_images(227)
+############################################################################
 
 ################################################################################
 # Function calls
