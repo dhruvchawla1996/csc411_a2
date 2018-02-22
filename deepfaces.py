@@ -81,7 +81,7 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 900
+    learning_rate, max_iter = 1e-4, 500
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = model(x[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
@@ -124,32 +124,32 @@ def part8():
 ################################################################################
 # Part 9
 ################################################################################
-# def part9():
-# Load weights from the model of part8
-snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
-W = snapshot["W"]
-b = snapshot["b"]
-b = b.reshape((b.shape[0], 1))
+def part9():
+    # Load weights from the model of part8
+    snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
+    W = snapshot["W"]
+    b = snapshot["b"]
+    b = b.reshape((b.shape[0], 1))
 
-# Let's open an image for Bracco and see which hidden neurons are firing more
-img = imread("cropped/bracco35.jpg")
-img = img[:, :, :3]
-img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
-img = img/128. - 1.
+    # Let's open an image for Bracco and see which hidden neurons are firing more
+    img = imread("cropped/bracco35.jpg")
+    img = img[:, :, :3]
+    img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
+    img = img/128. - 1.
 
-h = myReLU(np.dot(W, img.T) + b)
-h = softmax(h)
-h_max_i = []
+    h = myReLU(np.dot(W, img.T) + b)
+    h = softmax(h)
+    h_max_i = []
 
-# Get 10 most active neuron's indices
-for i in range(10):
-    h_max_i.append(np.argmax(h))
-    h[h_max_i[-1]] = 0
+    # Get 10 most active neuron's indices
+    for i in range(10):
+        h_max_i.append(np.argmax(h))
+        h[h_max_i[-1]] = 0
 
-for i in h_max_i:
-    W_i = W[i, :].reshape((64, 64, 3))
-    W_i = W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2]
-    imsave("figures/bracco/part9_bracco_"+str(i)+".jpg", W_i, cmap = "RdBu")
+    for i in h_max_i:
+        W_i = W[i, :].reshape((64, 64, 3))
+        W_i = W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2]
+        imsave("figures/bracco/part9_bracco_"+str(i)+".jpg", W_i, cmap = "RdBu")
 
 ################################################################################
 # Part 10
@@ -160,6 +160,6 @@ def part10():
 ################################################################################
 # Function calls
 ################################################################################
-# part8()
-# part9()
+part8()
+part9()
 # part10()
