@@ -124,8 +124,23 @@ def part8():
 ################################################################################
 # Part 9
 ################################################################################
-def part9():
-    pass
+# def part9():
+# Load weights from the model of part8
+snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
+W = snapshot["W"]
+b = snapshot["b"]
+
+# Let's open an image for Bracco and see which hidden neurons are firing more
+img = imread("cropped/bracco35.jpg")
+img = img[:, :, :3]
+img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
+img = img/128. - 1.
+
+h = myReLU(np.dot(W, img) + b)
+
+for i in range(len(h)):
+    if h[i] == 1:
+        print("Found a neuron")
 
 ################################################################################
 # Part 10
@@ -136,6 +151,6 @@ def part10():
 ################################################################################
 # Function calls
 ################################################################################
-part8()
+# part8()
 # part9()
 # part10()
