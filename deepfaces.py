@@ -42,7 +42,7 @@ def part8():
     for i in range(len(act)):
         a_name = act[i].split()[1].lower()
 
-        train_set_i, test_set_i = build_sets(a_name)
+        train_set_i, test_set_i = build_sets_part8(a_name)
 
         one_hot = np.zeros(len(act))
         one_hot[i] = 1
@@ -82,9 +82,9 @@ def part8():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 40
+    learning_rate, max_iter = 1e-4, 700
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-    for t in range(max_iter):
+    for t in range(max_iter+1):
         y_pred = model(x[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
         loss = loss_fn(y_pred, y_classes[(t*mini_batch_size)%600:(t*mini_batch_size)%600 + mini_batch_size])
         
@@ -93,7 +93,7 @@ def part8():
         optimizer.step()   # Use the gradient information to 
                            # make a step
 
-        if t % 100 == 0 or t == max_iter - 1:
+        if t % 100 == 0:
             print("Epoch: " + str(t))
 
             # Training Performance
@@ -126,6 +126,14 @@ def part8():
 # Part 9
 ################################################################################
 def part9():
+    # Remove folders figures/bracco/ and figures/baldwin
+    if os.path.exists('./figures/bracco'): shutil.rmtree('./figures/bracco')
+    if os.path.exists('./figures/baldwin'): shutil.rmtree('./figures/baldwin')
+
+    # Create figures/bracoo and figures/baldwin
+    if not os.path.exists('./figures/bracco'): os.makedirs('./figures/bracco')
+    if not os.path.exists('./figures/baldwin'): os.makedirs('./figures/baldwin')
+
     # Load weights from the model of part8
     snapshot = cPickle.load(open("part8_model_params.pkl", "rb"))
     W = snapshot["W"]
@@ -133,7 +141,7 @@ def part9():
     b = b.reshape((b.shape[0], 1))
 
     # Let's open an image for Bracco and see which hidden neurons are firing more
-    img = imread("cropped/bracco35.jpg")
+    img = imread("cropped64/bracco27.jpg")
     img = img[:, :, :3]
     img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
     img = img/128. - 1.
@@ -151,11 +159,11 @@ def part9():
     for i in h_max_i:
         W_i = W[i, :].reshape((64, 64, 3))
         W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
-        imsave("figures/bracco/part9_bracco_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        imsave("figures/bracco/part9_bracco_"+str(ctr)+".jpg", W_i, cmap = "RdBu")
         ctr = ctr + 1
 
     # Let's open an image for Baldwin and see which hidden neurons are firing more
-    img = imread("cropped/baldwin37.jpg")
+    img = imread("cropped64/baldwin38.jpg")
     img = img[:, :, :3]
     img = reshape(np.ndarray.flatten(img), [1, 64*64*3])
     img = img/128. - 1.
@@ -173,7 +181,7 @@ def part9():
     for i in h_max_i:
         W_i = W[i, :].reshape((64, 64, 3))
         W_i = (W_i[:,:,0] + W_i[:,:,1] + W_i[:,:,2])/255.
-        imsave("figures/bracco/part9_baldwin_"+str(ctr)+".jpg", W_i, cmap = cm.coolwarm)
+        imsave("figures/baldwin/part9_baldwin_"+str(ctr)+".jpg", W_i, cmap = "RdBu")
         ctr = ctr + 1
 
 ################################################################################
@@ -196,5 +204,5 @@ def part10():
 # Function calls
 ################################################################################
 # part8()
-# part9()
+part9()
 # part10()
