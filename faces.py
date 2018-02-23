@@ -98,29 +98,23 @@ def remove_bad_images(size):
     '''Removes bad images from list (manually chosen)
     Requires: cropped images in ./cropped
     '''
-    bad_image_filenames = ["baldwin68",
-                            "bracco90",
-                            "bracco64",
-                            "butler131",
-                            "butler132",
-                            "carell93",
-                            "chenoweth29",
-                            "chenoweth80",
-                            "chenoweth94",
-                            "drescher106",
-                            "drescher109",
-                            "drescher124",
-                            "drescher88",
-                            "ferrera159",
-                            "ferrera123",
+    bad_image_filenames = ["baldwin103",
+                            "baldwin11",
+                            "baldwin48",
+                            "baldwin66",
+                            "bracco91",
+                            "carell39",
+                            "carell92",
+                            "gilpin56",
+                            "hader140",
                             "hader4",
-                            "hader63",
-                            "hader77",
-                            "hader98",
-                            "harmon50",
-                            "radcliffe28",
-                            "vartan59",
-                            "vartan72"]
+                            "hader62",
+                            "hader76",
+                            "hader97",
+                            "harmon102",
+                            "harmon49",
+                            "harmon81",
+                            "harmon96"]
 
     for filename in bad_image_filenames:
         if os.path.isfile("cropped"+str(size)+"/"+filename+".jpg"):
@@ -129,7 +123,7 @@ def remove_bad_images(size):
 ################################################################################
 # Building training, validation and testing sets for an actor
 ################################################################################
-def build_sets(actor):
+def build_sets_part8(actor):
     '''Return two lists of randomized image names 
     in cropped/ folder that match actor name
     
@@ -144,7 +138,7 @@ def build_sets(actor):
     # Make a list of images for the actor
     image_list = []
 
-    for f in os.listdir("cropped"):
+    for f in os.listdir("cropped64"):
         if actor in f:
             image_list.append(f)
 
@@ -156,14 +150,14 @@ def build_sets(actor):
     test_set = np.zeros((0, 64*64*3))
 
     for img in image_list[:20]:
-        t_img = imread("cropped/"+img)
+        t_img = imread("cropped64/"+img)
         t_img = t_img[:, :, :3]
         t_img = reshape(np.ndarray.flatten(t_img), [1, 64*64*3])
         t_img = t_img/128. - 1.
         test_set = np.vstack((test_set, t_img))
 
     for img in image_list[20:]:
-        tr_img = imread("cropped/"+img)
+        tr_img = imread("cropped64/"+img)
         tr_img = tr_img[:, :, :3]
         tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64*3])
         tr_img = tr_img/128. - 1.
