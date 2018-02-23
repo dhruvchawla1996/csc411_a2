@@ -180,8 +180,7 @@ def part4():
 
 
 def part4_rerun():
-    #TODO: rerun part 4 with vectorized gradient
-    #Load the MNIST digit data
+     #Load the MNIST digit data
     M = loadmat("mnist_all.mat")
 
     # Split data into training and test set
@@ -212,7 +211,7 @@ def part4_rerun():
 
     alpha = 0.00001
 
-    W, b, epoch, train_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
+    W, b, epoch, train_perf, test_perf = train_nn(compute_simple_network, gradient_simple_network_w_2, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
     plot_learning_curves_rerun("part4", epoch, train_perf, test_perf)
     plot_digit_weights_rerun(W)
@@ -295,7 +294,7 @@ def part5_rerun():
 
     alpha = 0.00001
 
-    W, b, epoch, train_perf, test_perf = train_nn_M(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
+    W, b, epoch, train_perf, test_perf = train_nn_M2(compute_simple_network, gradient_simple_network_w_2, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
     print("plotting")
     plot_learning_curves_rerun("part5", epoch,train_perf, test_perf)
@@ -314,7 +313,7 @@ def part6():
 ################################################################################
 #part1()
 #part2()
-part3_rerun()
-# part4()
-#part5()
+#part3_rerun()
+#part4_rerun()
+part5_rerun()
 # part6()

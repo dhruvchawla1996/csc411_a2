@@ -91,7 +91,6 @@ def gradient_simple_network_w_2(x, W, b, y):
     gradient_mat = np.matmul(x, p_minus_y.T)
     return gradient_mat
 
-#TODO: disturb only one weight
 def check_finite_differences_w(x, W, b, y, h):
     for j in range(28*28):
         for i in range(10):
@@ -158,7 +157,7 @@ def performance(x, W, b, y):
 
     return 100 * correct/float(total)
 
-def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 2000):
+def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 6000):
     x = x_train
     y = y_train
 
@@ -178,7 +177,7 @@ def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, al
         W -= alpha * df_W(x, W, b, y)
         b -= alpha * df_b(x, W, b, y)
 
-        if itr % 200 == 0 or itr == max_iter - 1:
+        if itr % 50 == 0 or itr == max_iter - 1:
             epoch_i = itr
             train_perf_i = performance(x_train, W, b, y_train)
             test_perf_i = performance(x_test, W, b, y_test)
@@ -233,7 +232,7 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
 
     return W, b, epoch, train_perf, test_perf
 
-def train_nn_M2(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 2000):
+def train_nn_M2(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 6000):
     '''
     uses momentum differently than train_nn_M
     '''
