@@ -279,21 +279,40 @@ def train_nn_M2(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b,
     return W, b, epoch, train_perf, test_perf
 
 
-def cost_for_contour(x, W, b, y, w1_range, w2_range):
+#TODO: make this entire shit more efficient
+def cost_for_contour(x, W, b, y, w1_range, w2_range, coords):
+    '''
 
-    cost = np.zeros((w1_range.size, w2_range.size))
-    for w1 in enumerate(w1_range):
-        for w2 in enumerate(w2_range):
-#TODO:      disturb one weight in weight matrix
-#TODO:      compute ouput
-#TODO:      compute cost w.r.t that first weight
-#TODO:      repeate and compute cost w.r.t to second weight
-            disturbed_weights = weights.copy
-            disturbed_weights[]
-#TODO:      figure out cost w.r.t two weights
-        #  is it the sum of costs w.r.t each weight?
-#            cost[w1,w2] = cost_w1 + cost_w2
-     return
+    :param x:
+    :param W:
+    :param b:
+    :param y:
+    :param w1_range:
+    :param w2_range:
+    :param coords:
+    :return: cost matrix of size w1_range.size x w2_range.size
+    '''
+
+    w1_i, w1_j = coords[:, 0][0], coords[:, 0][1]
+    w2_i, w2_j = coords[:, 1][0], coords[:, 1][1]
+
+cost = np.zeros((w1_range.size, w2_range.size))
+    for w1_idx in enumerate(w1_range):
+        for w2_idx in enumerate(w2_range):
+#      disturb one weight in weight matrix
+            W_w1 = W.copy()
+            W_w1[w1_i, w1_j] = w1[w1_idx]
+            W_w2 = W.copy()
+            W_w2[w2_i, w2_j] = w2[w2_idx]
+#      compute cost w.r.t that first weight
+#      repeate and compute cost w.r.t to second weight
+            cost_i = NLL(compute_simple_network(x, W_w1, b), y)
+            cost_j = NLL(compute_simple_network(x, W_w2, b),y)
+#
+#        is it the sum of costs w.r.t each weight?
+            cost[w1_idx, w2_idx] = cost_w1 + cost_w2
+
+     return cost
 #
 
 
