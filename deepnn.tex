@@ -438,6 +438,8 @@ The following optimization procedue was followed:
 
 \clearpage
 
+The performance of the NN on training set is 93.24\% and on the testing set is 92.57\%. This is good for a neural net with no hidden layers on the MNIST dataset according to literature available on the web.\\
+
 Performance of the learning curves can be seen in Figure $2$.
 
 \begin{figure*}[h!]
@@ -705,7 +707,9 @@ The image array is formed by loading in an RGB image of dimensions 227x227, norm
 
 \textbf{Getting activations for train and test set}\\
 
-Similar to Part 8, each actor has 20 images in test set and the rest in training set. The train-test split is in \texttt{build\_sets\_part10(actor)} in \texttt{faces.py}.\\
+Similar to Part 8, each actor has 20 images in test set and the rest in training set. The train-test split is in \texttt{build\_sets\_part10(actor)} in \texttt{faces.py}.\\ 
+
+The images are obtained from the FaceScrub dataset using the function, \texttt{get\_and\_crop\_images(act, 227)} in \texttt{faces.py}. The images are checked for SHA-256 checksums and remaining bad images are filtered out using \texttt{remove\_bad\_images(227)}.\\
 
 \textit{Note: The images are stored in cropped227/ folder which can be obtained by unzipping cropped227.zip. Alternatively, comment out the lines in part10() that call for get\_and\_crop\_images(act, 227) and remove\_bad\_images(227)}\\
 
@@ -717,7 +721,6 @@ Once we have the activation values, we plug them into a neural net which is simi
 
 Similar to part 8, the parameters used to gain better performance were:
 \begin{enumerate}
-    \item Having a hidden layer between the input (Conv4 activations) and the output classifier. This performed better than not having a hidden layer.
     \item Using ReLU for the hidden layer activation function. ReLU gave better performace than Tanh or Sigmoid.
     \item Using 600 neurons in the hidden layer. The number of neurons were increased until they were not bringing the cost down for corresponding epochs (perhaps due to overfitting).
     \item Using Adam optimizer. Other optimizers were tried (SGD, AdaGrad) but Adam gave the best performance.
@@ -725,8 +728,6 @@ Similar to part 8, the parameters used to gain better performance were:
 \end{enumerate}
 
 The labels were stored as one-hot encoding for the actors. The new neural net is in \texttt{alexNetFaceScrub()} in \texttt{myalexnet.py}.\\
-
-\clearpage
 
 \textbf{Performance}\\
 
