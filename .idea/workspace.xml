@@ -2,9 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebfe3fca-5f65-46a4-a39a-8647766c75db" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_0.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_1.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_2.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_3.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_4.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_5.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_6.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_7.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_8.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/figures/baldwin/part9_baldwin_9.jpg" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/cropped227.zip" afterPath="$PROJECT_DIR$/cropped227.zip" />
+      <change beforePath="$PROJECT_DIR$/cropped64.zip" afterPath="$PROJECT_DIR$/cropped64.zip" />
+      <change beforePath="$PROJECT_DIR$/deepfaces.py" afterPath="$PROJECT_DIR$/deepfaces.py" />
+      <change beforePath="$PROJECT_DIR$/deepnn.pdf" afterPath="$PROJECT_DIR$/deepnn.pdf" />
+      <change beforePath="$PROJECT_DIR$/deepnn.tex" afterPath="$PROJECT_DIR$/deepnn.tex" />
       <change beforePath="$PROJECT_DIR$/digits.py" afterPath="$PROJECT_DIR$/digits.py" />
+      <change beforePath="$PROJECT_DIR$/faces.py" afterPath="$PROJECT_DIR$/faces.py" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_0.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_0.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_1.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_1.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_2.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_2.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_3.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_3.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_4.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_4.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_5.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_5.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_6.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_6.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_7.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_7.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_8.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_8.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/bracco/part9_bracco_9.jpg" afterPath="$PROJECT_DIR$/figures/bracco/part9_bracco_9.jpg" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_0_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_1_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_2_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_3_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_4_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_5_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_6_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_7_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_8_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_9_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_learning_curve.png" afterPath="$PROJECT_DIR$/figures/part4_learning_curve.png" />
+      <change beforePath="$PROJECT_DIR$/figures/part4_learning_curve_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part5_learning_curve.png" afterPath="$PROJECT_DIR$/figures/part5_learning_curve.png" />
+      <change beforePath="$PROJECT_DIR$/figures/part5_learning_curve_rerun.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/figures/part8_learning_curve.png" afterPath="$PROJECT_DIR$/figures/part8_learning_curve.png" />
       <change beforePath="$PROJECT_DIR$/mnist_handout.py" afterPath="$PROJECT_DIR$/mnist_handout.py" />
+      <change beforePath="$PROJECT_DIR$/plot.py" afterPath="$PROJECT_DIR$/plot.py" />
+      <change beforePath="$PROJECT_DIR$/weights_part5.npy" afterPath="$PROJECT_DIR$/weights_part5.npy" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,10 +61,11 @@
       <file leaf-file-name="digits.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/digits.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="323" column="4" lean-forward="false" selection-start-line="323" selection-start-column="4" selection-end-line="323" selection-end-column="55" />
+            <state relative-caret-position="-592">
+              <caret line="204" column="4" lean-forward="false" selection-start-line="204" selection-start-column="4" selection-end-line="204" selection-end-column="4" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+                <marker date="1519420128039" expanded="true" signature="1333:1942" ph="..." />
               </folding>
             </state>
           </provider>
@@ -31,9 +75,11 @@
         <entry file="file://$PROJECT_DIR$/plot.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="508">
-              <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
+              <caret line="81" column="4" lean-forward="false" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+                <marker date="1519420127941" expanded="true" signature="2042:2108" ph="..." />
+                <marker date="1519420127941" expanded="true" signature="2042:2434" ph="..." />
               </folding>
             </state>
           </provider>
@@ -42,8 +88,8 @@
       <file leaf-file-name="mnist_handout.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mnist_handout.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="312" column="52" lean-forward="true" selection-start-line="312" selection-start-column="52" selection-end-line="312" selection-end-column="52" />
+            <state relative-caret-position="95">
+              <caret line="209" column="0" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -99,11 +145,6 @@
             <path>
               <item name="csc411_a2" type="b2602c69:ProjectViewProjectNode" />
               <item name="csc411_a2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="csc411_a2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="csc411_a2" type="462c0819:PsiDirectoryNode" />
-              <item name="figures" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -203,15 +244,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769045" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43651754" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23247497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23247497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -336,27 +376,30 @@
     <entry file="file://$PROJECT_DIR$/plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="508">
-          <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
+          <caret line="81" column="4" lean-forward="false" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1519420127941" expanded="true" signature="2042:2108" ph="..." />
+            <marker date="1519420127941" expanded="true" signature="2042:2434" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/digits.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="323" column="4" lean-forward="false" selection-start-line="323" selection-start-column="4" selection-end-line="323" selection-end-column="55" />
+        <state relative-caret-position="-592">
+          <caret line="204" column="4" lean-forward="false" selection-start-line="204" selection-start-column="4" selection-end-line="204" selection-end-column="4" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+            <marker date="1519420128039" expanded="true" signature="1333:1942" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mnist_handout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="312" column="52" lean-forward="true" selection-start-line="312" selection-start-column="52" selection-end-line="312" selection-end-column="52" />
+        <state relative-caret-position="95">
+          <caret line="209" column="0" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
