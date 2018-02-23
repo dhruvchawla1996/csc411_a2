@@ -156,7 +156,7 @@
 \newcommand{\hmwkClass}{CSC411} % Course/class
 \newcommand{\hmwkClassTime}{L2501} % Class/lecture time
 \newcommand{\hmwkFirstAuthorName}{Chawla Dhruv} % First name
-\newcommand{\hmwkSecondAuthorName}{Lokman Sabrina} % First name
+\newcommand{\hmwkSecondAuthorName}{Maham Shama Saila} % First name
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -196,10 +196,12 @@ Some of the images are straightforward to analyze and decipher while some are mo
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[scale=1]{part1.png}
+    \includegraphics[scale=1]{figures/part1.png}
     \caption{Images from the MNIST dataset}
     \label{fig:fig1}
 \end{figure*}
+
+The image is produced from \texttt{plot\_each\_digit()} in \texttt{plot.py}.\\
 
 \end{homeworkProblem}
 \clearpage
@@ -218,19 +220,9 @@ The function for computing simple neural network (no hidden layers) is in \textt
 def compute_simple_network(x, W, b):
     '''Compute a simple network (with no hidden layers)
     '''
-    o = np.dot(W, x) + b
+    o = np.dot(W.T, x) + b
     return softmax(o)
 \end{python}
-
-An example of the function in action is seen below (and in \texttt{part2()} of \texttt{digits.py}).\\
-
-\begin{verbatim}
->>> x = np.random.rand(784, 1)
->>> W = np.random.rand(10, 784)
->>> b = np.random.rand(10, 1)
->>> compute_simple_network(x, W, b).shape
-(10, 1)
-\end{verbatim}
 
 \texttt{compute\_simple\_network(x, W, b)} returns the output layer of the neural network.\\
 
@@ -322,7 +314,7 @@ we will get
 
 \subsection{Part 3(b)}
 
-\textit{Compute Gradient of Cost Function with respect to Weight}\\
+\textbf{Compute Gradient of Cost Function with respect to Weight}\\
 
 The function for computing the gradient with respect to weight is in \texttt{mnist\_handout.py} and is reproduced here.\\
 
@@ -330,15 +322,13 @@ The function for computing the gradient with respect to weight is in \texttt{mni
 def gradient_simple_network_w(x, W, b, y):
     p = compute_simple_network(x, W, b)
 
-    gradient_mat = np.zeros((28*28, 10))
-
-    for j in range(28*28):
-        gradient_mat[j, :] = np.dot((p - y), x[j, :].T)
+    p_minus_y = np.subtract(p, y)
+    gradient_mat = np.matmul(x, p_minus_y.T)
 
     return gradient_mat
 \end{python}
 
-\textit{Compute Gradient of Cost Function with respect to Bias}\\
+\textbf{Compute Gradient of Cost Function with respect to Bias}\\
 
 The function for computing the gradient with respect to bias is in \texttt{mnist\_handout.py} and is reproduced here.\\
 
@@ -348,6 +338,12 @@ def gradient_simple_network_b(x, W, b, y):
 
     return np.sum((p - y), axis=1).reshape((10, 1))
 \end{python}
+
+\textbf{Finite difference check}\\
+
+The gradient with respect to weight at several different coordinates was computed and displayed along with the finite difference values at the same coordinates.\\
+
+As can be seen, the gradient is accurate up to 4-5 decimal places.\\
 
 \begin{verbatim}
 Index: 245.0, 9.0
@@ -379,6 +375,8 @@ Actual Gradient Value:   0.0111480447289
 Finite Difference Value: 0.0111945692614
 \end{verbatim}
 
+This is done in \texttt{check\_grad\_w(x, W, b, y, h, coords)} in \texttt{mnist\_handout.py}.\\
+
 
 \end{homeworkProblem}
 \clearpage
@@ -390,6 +388,8 @@ Finite Difference Value: 0.0111945692614
 \begin{homeworkProblem}
 
 \textit{Train the neural network using Gradient Descent}\\
+
+The code to train the neural net is included in \texttt{mnist\_handout.py}.\\
 
 \begin{python}
 def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 2000):
@@ -430,16 +430,92 @@ def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, al
     return W, b, epoch, train_perf, test_perf
 \end{python}
 
+The following optimization procedue was followed:
+\begin{enumerate}
+    \item Weights were initialized using the saved weights from \texttt{snapshot50.pkl} file. These performed better than randomly initialized weights. I suspect these are pre-trained weights that give a better starting point than random weights.
+    \item Learning rate was set to $1^{-5}$ and iterations to 2000. This was done with experiments and trying to see which combination gave the lowest cost on the testing set.
+\end{enumerate}
+
 \clearpage
 
-Performance of the learning curves can be seen in figure $2$.
+Performance of the learning curves can be seen in Figure $2$.
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[scale=1]{part4_learning_curve.png}
+    \includegraphics[scale=1]{figures/part4_learning_curve_rerun.png}
     \caption{Learning curve for neural network using Gradient Descent}
-    \label{fig:fig1}
+    \label{fig:fig2}
 \end{figure*}
+
+The weights corresponding to each digit are plotted below:\\
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_0.png}
+        \caption{0}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_1.png}
+        \caption{1}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_2.png}
+        \caption{2}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_3.png}
+        \caption{3}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_4.png}
+        \caption{4}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_5.png}
+        \caption{5}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_6.png}
+        \caption{6}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_7.png}
+        \caption{7}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_8.png}
+        \caption{8}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.09\textwidth}
+        \centering
+        \includegraphics[scale=0.09]{figures/part4_9.png}
+        \caption{9}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \caption{Displaying weights of each of the digits}
+    \label{fig:fig3}
+\end{figure*}
+
+The images can be reproduced by calling \texttt{part4()} in \texttt{digits.py}.\\
 
 \end{homeworkProblem}
 \clearpage
@@ -452,8 +528,10 @@ Performance of the learning curves can be seen in figure $2$.
 
 \textit{Train the neural network using Gradient Descent with Momentum}\\
 
+The code to train the neural net is included in \texttt{mnist\_handout.py}.\\
+
 \begin{python}
-def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 2000):
+def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 6000):
     x = x_train
     y = y_train
 
@@ -465,15 +543,21 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
     W = init_W.copy()
     b = init_b.copy()
     itr = 0
+    v_W = 0
+    v_b = 0
 
     while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
         prev_W = W.copy()
         prev_b = b.copy()
 
-        W = (gamma * W) - alpha * df_W(x, W, b, y) 
-        b -= alpha * df_b(x, W, b, y) 
+        #update velocities
+        v_W = gamma * v_W + alpha * df_W(x,W,b,y)
+        v_b = gamma * v_b + alpha * df_b(x,W,b,y)
+        #update parameters with momentum
+        W = W - v_W
+        b = b - v_b
 
-        if itr % 200 == 0 or itr == max_iter - 1:
+        if itr % 50 == 0 or itr == max_iter - 1:
             epoch_i = itr
             train_perf_i = performance(x_train, W, b, y_train)
             test_perf_i = performance(x_test, W, b, y_test)
@@ -493,14 +577,16 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
 
 \clearpage
 
-Performance of the learning curves can be seen in figure $3$.
+Performance of the learning curves can be seen in Figure $4$.
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[scale=1]{part5_learning_curve.png}
+    \includegraphics[scale=1]{figures/part5_learning_curve_rerun.png}
     \caption{Learning curve for neural network using Gradient Descent with Momentum}
-    \label{fig:fig1}
+    \label{fig:fig4}
 \end{figure*}
+
+It can be observed that with momentum, we reach the peak performance faster than without. In addition, the performance of the algorithm (in terms of accuracy on the test and training set are not sacrificed).\\
 
 \end{homeworkProblem}
 \clearpage
@@ -546,6 +632,143 @@ Performance of the learning curves can be seen in figure $3$.
 %----------------------------------------------------------------------------------------
 
 \begin{homeworkProblem}
+
+\textit{Modify AlexNet for FaceScrub face classification}\\
+
+\textbf{Extracting activation values from MyAlexNet}\\
+
+The values of activation of the AlexNet Conv4 layer were extracted by modifying the features of \texttt{MyAlexNet}. We chose Conv4 as it the convolutional layer closest to the output and thus is more likely to have high-level features better for detecting faces.
+\begin{enumerate}
+    \item Features after Conv4 layer were commented out
+    \item Classifer call was removed in \texttt{forward(x)} method so that it returns the activation values instead of classification output
+\end{enumerate}
+
+Final (modified) code for \texttt{MyAlexNet} is reproduced here.
+\begin{python}
+class MyAlexNet(nn.Module):
+    def load_weights(self):
+        an_builtin = torchvision.models.alexnet(pretrained=True)
+        
+        features_weight_i = [0, 3, 6, 8, 10]
+        for i in features_weight_i:
+            self.features[i].weight = an_builtin.features[i].weight
+            self.features[i].bias = an_builtin.features[i].bias
+            
+        classifier_weight_i = [1, 4, 6]
+        for i in classifier_weight_i:
+            self.classifier[i].weight = an_builtin.classifier[i].weight
+            self.classifier[i].bias = an_builtin.classifier[i].bias
+
+    def __init__(self, num_classes=1000):
+        super(MyAlexNet, self).__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(64, 192, kernel_size=5, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2),
+            nn.Conv2d(192, 384, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(384, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1)
+            #nn.ReLU(inplace=True),
+            #nn.MaxPool2d(kernel_size=3, stride=2),
+        )
+        self.classifier = nn.Sequential(
+            nn.Dropout(),
+            nn.Linear(256 * 6 * 6, 4096),
+            nn.ReLU(inplace=True),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
+            nn.ReLU(inplace=True),
+            nn.Linear(4096, num_classes),
+        )
+        
+        self.load_weights()
+
+    def forward(self, x):
+        x = self.features(x)
+        x = x.view(x.size(0), 256 * 13 * 13)
+        # x = self.classifier(x)
+        return x
+\end{python}
+This code can be found in \texttt{myalexnet.py}\\
+
+The activation value for an image can be found out by calling \texttt{model.forward(x)} and storing it in a \texttt{numpy} array.
+\begin{python}
+x = Variable(torch.from_numpy(img), requires_grad=False).type(torch.FloatTensor)
+activation = model.forward(x).data.numpy()
+\end{python}
+The image array is formed by loading in an RGB image of dimensions 227x227, normalizing the values to be in range [-1, 1] and reshaping it in array of shape (1, 3, 227, 227).\\
+
+\textbf{Getting activations for train and test set}\\
+
+Similar to Part 8, each actor has 20 images in test set and the rest in training set. The train-test split is in \texttt{build\_sets\_part10(actor)} in \texttt{faces.py}.\\
+
+\textit{Note: The images are stored in cropped227/ folder which can be obtained by unzipping cropped227.zip. Alternatively, comment out the lines in part10() that call for get\_and\_crop\_images(act, 227) and remove\_bad\_images(227)}\\
+
+The activations for each image is obtained and stored in \texttt{train\_activation} and \texttt{test\_activation} \texttt{numpy} arrays respectively. This is done in \texttt{alexNetFaceScrub()} in \texttt{myalexnet.py}. The process is done 100 images at a time due to CDF machine's memory constraints and will have to be modified should there be more than 600 images in the training set or more than 120 in the test set.\\
+
+\textbf{Plugging the activations into the new neural net}\\
+
+Once we have the activation values, we plug them into a neural net which is similar to the one used in Part 8 except the input dimension has been modified to fit the activation layer size.\\
+
+Similar to part 8, the parameters used to gain better performance were:
+\begin{enumerate}
+    \item Having a hidden layer between the input (Conv4 activations) and the output classifier. This performed better than not having a hidden layer.
+    \item Using ReLU for the hidden layer activation function. ReLU gave better performace than Tanh or Sigmoid.
+    \item Using 600 neurons in the hidden layer. The number of neurons were increased until they were not bringing the cost down for corresponding epochs (perhaps due to overfitting).
+    \item Using Adam optimizer. Other optimizers were tried (SGD, AdaGrad) but Adam gave the best performance.
+    \item Using learning rate of $1^{-4}$ and 400 iterations. Using more iterations increased cost (due to overfitting). The learning rate was low enough to achieve good performance while not having a lot of iterations.
+\end{enumerate}
+
+The labels were stored as one-hot encoding for the actors. The new neural net is in \texttt{alexNetFaceScrub()} in \texttt{myalexnet.py}.\\
+
+\clearpage
+
+\textbf{Performance}\\
+
+The final model had a 92.5\% accuracy on the test set. This cut down the error rate in Part 8 by more than 30\%. The performance of the model on training and testing set along with the epochs is shown here.\\
+
+\begin{verbatim}
+Epoch: 0
+Training Set Performance: 25.2873563218%
+Testing Set Performance:  21.6666666667%
+
+Epoch: 50
+Training Set Performance: 95.2380952381%
+Testing Set Performance:  86.6666666667%
+
+Epoch: 100
+Training Set Performance: 100.0%
+Testing Set Performance:  90.0%
+
+Epoch: 150
+Training Set Performance: 100.0%
+Testing Set Performance:  90.8333333333%
+
+Epoch: 200
+Training Set Performance: 100.0%
+Testing Set Performance:  91.6666666667%
+
+Epoch: 250
+Training Set Performance: 100.0%
+Testing Set Performance:  92.5%
+
+Epoch: 300
+Training Set Performance: 100.0%
+Testing Set Performance:  92.5%
+
+Epoch: 350
+Training Set Performance: 100.0%
+Testing Set Performance:  92.5%
+
+Epoch: 399
+Training Set Performance: 100.0%
+Testing Set Performance:  92.5%
+\end{verbatim}
 
 \end{homeworkProblem}
 \clearpage

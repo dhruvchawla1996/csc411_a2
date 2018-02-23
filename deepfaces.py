@@ -20,6 +20,7 @@ import torch
 from mnist_handout import *
 from plot import *
 from faces import *
+from myalexnet import *
 
 ################################################################################
 # Part 8
@@ -178,16 +179,18 @@ def part9():
 ################################################################################
 # Part 10
 ################################################################################
-# def part10():
-# Actors for training and validation set
-act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+def part10():
+    # Actors for training and validation set
+    act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
 
-# Uncomment if images need to be downloaded in ./cropped/ folder
-# If it doesn't work, unzip cropped.zip
-############################################################################
-get_and_crop_images(act, 227)
-remove_bad_images(227)
-############################################################################
+    # Uncomment if images need to be downloaded in ./cropped/ folder
+    # If it doesn't work, unzip cropped.zip
+    ############################################################################
+    # get_and_crop_images(act, 227)
+    #remove_bad_images(227)
+    ############################################################################
+
+    alexNetFaceScrub()
 
 ################################################################################
 # Function calls
