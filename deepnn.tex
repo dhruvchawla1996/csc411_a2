@@ -656,6 +656,34 @@ The performance curve is shown in Figure 5.\\
 
 \begin{homeworkProblem}
 
+\textit{Visualizing weights for the hidden unit for two actors}\\
+
+This is done in \texttt{part9()} of \texttt{deepfaces.py}.\\
+
+To select hidden units that are useful for classifying input photos as those particular actors, I ran an image of each actor through the first layer of the neural net made in Part 8 and extracted the indices of the top 10 hidden neurons (according to the highest value of the activation values after taking a softmax of them all). Since, the activation function is ReLU, all the values of the hidden neuron activations is positive and a higher value indicates that it is contributing more to the final outcome.\\
+
+We used the images \texttt{cropped64/bracco27.jpg} and \texttt{cropped64/baldwin38.jpg} respectively for the actors, Bracco and Baldwin. Out of the 10 images generated for each actor, I've picked two that resemble faces the most. All the images can be found in \texttt{figures/bracco} and \texttt{figures/baldwin}.\\
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[scale=2.5]{figures/bracco/part9_bracco_4.jpg}
+        \caption{part9\_bracco\_4.jpg}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \centering
+        \includegraphics[scale=2.5]{figures/baldwin/part9_baldwin_3.jpg}
+        \caption{part9\_baldwin\_3.jpg}
+        \label{fig:sfig1}
+    \end{subfigure}
+    \caption{Visualizing weights of hidden units for classifying images as Bracco and Baldwin}
+    \label{fig:fig6}
+\end{figure*} 
+
+The images roughly resemble faces (eyes, eyebrows and mouth can be made out). The images do seem a bit noisy which might be due to the fact that the R, G and B layers have been combined to make this image or it might be due to overfitting.\\ 
+
 \end{homeworkProblem}
 \clearpage
 
@@ -754,49 +782,77 @@ Similar to part 8, the parameters used to gain better performance were:
     \item Using ReLU for the hidden layer activation function. ReLU gave better performace than Tanh or Sigmoid.
     \item Using 600 neurons in the hidden layer. The number of neurons were increased until they were not bringing the cost down for corresponding epochs (perhaps due to overfitting).
     \item Using Adam optimizer. Other optimizers were tried (SGD, AdaGrad) but Adam gave the best performance.
-    \item Using learning rate of $1^{-4}$ and 400 iterations. Using more iterations increased cost (due to overfitting). The learning rate was low enough to achieve good performance while not having a lot of iterations.
+    \item Using learning rate of $1^{-4}$ and 150 iterations. Using more iterations increased cost (due to overfitting). The learning rate was low enough to achieve good performance while not having a lot of iterations.
 \end{enumerate}
 
 The labels were stored as one-hot encoding for the actors. The new neural net is in \texttt{alexNetFaceScrub()} in \texttt{myalexnet.py}.\\
 
 \textbf{Performance}\\
 
-The final model had a 92.5\% accuracy on the test set. This cut down the error rate in Part 8 by more than 30\%. The performance of the model on training and testing set along with the epochs is shown here.\\
+The final model had a 92.5\% accuracy on the test set. This cut down the error rate in Part 8 by more than 50\%. The performance of the model on training and testing set along with the epochs is shown here.\\
 
 \begin{verbatim}
 Epoch: 0
-Training Set Performance: 25.2873563218%
-Testing Set Performance:  21.6666666667%
+Training Set Performance: 33.8870431894%
+Testing Set Performance:  28.3333333333%
+
+Epoch: 10
+Training Set Performance: 55.1495016611%
+Testing Set Performance:  39.1666666667%
+
+Epoch: 20
+Training Set Performance: 79.7342192691%
+Testing Set Performance:  72.5%
+
+Epoch: 30
+Training Set Performance: 91.0299003322%
+Testing Set Performance:  80.8333333333%
+
+Epoch: 40
+Training Set Performance: 94.6843853821%
+Testing Set Performance:  80.0%
 
 Epoch: 50
-Training Set Performance: 95.2380952381%
+Training Set Performance: 97.342192691%
 Testing Set Performance:  86.6666666667%
 
-Epoch: 100
+Epoch: 60
+Training Set Performance: 99.0033222591%
+Testing Set Performance:  89.1666666667%
+
+Epoch: 70
+Training Set Performance: 99.8338870432%
+Testing Set Performance:  89.1666666667%
+
+Epoch: 80
+Training Set Performance: 99.8338870432%
+Testing Set Performance:  91.6666666667%
+
+Epoch: 90
 Training Set Performance: 100.0%
 Testing Set Performance:  90.0%
 
-Epoch: 150
+Epoch: 100
 Training Set Performance: 100.0%
 Testing Set Performance:  90.8333333333%
 
-Epoch: 200
+Epoch: 110
 Training Set Performance: 100.0%
 Testing Set Performance:  91.6666666667%
 
-Epoch: 250
+Epoch: 120
+Training Set Performance: 100.0%
+Testing Set Performance:  91.6666666667%
+
+Epoch: 130
+Training Set Performance: 100.0%
+Testing Set Performance:  91.6666666667%
+
+Epoch: 140
 Training Set Performance: 100.0%
 Testing Set Performance:  92.5%
 
-Epoch: 300
-Training Set Performance: 100.0%
-Testing Set Performance:  92.5%
-
-Epoch: 350
-Training Set Performance: 100.0%
-Testing Set Performance:  92.5%
-
-Epoch: 399
+Epoch: 149
 Training Set Performance: 100.0%
 Testing Set Performance:  92.5%
 \end{verbatim}
