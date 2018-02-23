@@ -2,6 +2,12 @@ from pylab import *
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
+
+#for contour plots
+import matplotlib.cm as cm
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
+
 import time
 from scipy.misc import imread
 from scipy.misc import imresize
@@ -296,6 +302,11 @@ def part5_rerun():
 
     W, b, epoch, train_perf, test_perf = train_nn_M2(compute_simple_network, gradient_simple_network_w_2, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
+    #TODO: save weights from 6000 iterations.
+    #Saved weights by training for 3000 iterations only in the interest of time
+    print("saving")
+    np.save("weights_part5", W)
+
     print("plotting")
     plot_learning_curves_rerun("part5", epoch,train_perf, test_perf)
     plot_digit_weights_rerun(W)
@@ -305,7 +316,31 @@ def part5_rerun():
 ################################################################################
 def part6():
 
-    plot_trajectory("part6", mo_traj, w1, w2)
+    weights = np.load("weights_part5.npy")
+    #choose weights at the center of the digits 784/2 and 784/2 + 28* 5
+    w1 = weights[int(784/2), 3]
+    w2 = weights[int(784/2), 4]
+
+    #TODO: figure out how much to vary the weights by, create vector for meshgrid
+    # You should determine the range that would get you a good visualization.
+    print(weights)
+    print(np.mean(weights), np.std(weights))
+    print(np.mean(weights[int(784/2),:]), np.std(weights[:,3]), np.std(weights[:,4]))
+
+    # are my weights supposed to be this small?
+    w1_range = np.random.normal(w1, np.std(weights[:,3]), 20)
+    w2_range = np.random.normal(w2, np.std(weights[:,4]), 20)
+    print(w1, w2)
+
+    #TODO: write cost as function of these two weights (in mnist_handout.py)
+    #cost_for_contour(x, W, b, y, w1_range, w2_range)
+
+
+    #create contour plot of cost
+    #create_contour_plot(w1_range, w2_range, cost)
+
+
+    #plot_trajectory("part6", mo_traj, w1, w2)
     
 
 ################################################################################
@@ -315,5 +350,5 @@ def part6():
 #part2()
 #part3_rerun()
 #part4_rerun()
-part5_rerun()
-# part6()
+#part5_rerun()
+part6()
