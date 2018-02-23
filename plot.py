@@ -112,9 +112,8 @@ def plot_learning_curves_rerun(part, epoch, train_perf, test_perf):
     plt.clabel(CS, inline=1, fontsize=10)
     plt.title('Contour plot of cost w.r.t w_(382,3) and w_(382,4)')
     plt.show()
-    
-#
-#     return
+
+    return
 
 # def plot_trajectories_2(part, w1, w2):
 #

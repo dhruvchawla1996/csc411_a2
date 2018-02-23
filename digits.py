@@ -2,6 +2,12 @@ from pylab import *
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
+
+#for contour plots
+import matplotlib.cm as cm
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
+
 import time
 from scipy.misc import imread
 from scipy.misc import imresize
