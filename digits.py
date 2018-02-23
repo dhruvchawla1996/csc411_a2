@@ -202,6 +202,7 @@ def part6():
     w1 = weights[int(784/2), 3]
     w2 = weights[int(784/2), 4]
 
+    coords = np.array([[int(784/2), int(784/2)],[3,4]])
     #TODO: figure out how much to vary the weights by, create vector for meshgrid
     # You should determine the range that would get you a good visualization.
     print(weights)
@@ -214,7 +215,7 @@ def part6():
     print(w1, w2)
 
     #TODO: write cost as function of these two weights (in mnist_handout.py)
-    #cost_for_contour(x, W, b, y, w1_range, w2_range)
+    #cost_for_contour(x, W, b, y, w1_range, w2_range, coords)
 
 
     #create contour plot of cost
