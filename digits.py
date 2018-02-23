@@ -333,11 +333,11 @@ def part6():
     print(w1, w2)
 
     #TODO: write cost as function of these two weights (in mnist_handout.py)
-    #cost_for_contour(w1_range, w2_range, weights, x, y)
+    #cost_for_contour(x, W, b, y, w1_range, w2_range)
 
 
     #create contour plot of cost
-    create_contour_plot(w1_range, w2_range, cost)
+    #create_contour_plot(w1_range, w2_range, cost)
 
 
     #plot_trajectory("part6", mo_traj, w1, w2)

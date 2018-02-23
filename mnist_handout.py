@@ -279,14 +279,20 @@ def train_nn_M2(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b,
     return W, b, epoch, train_perf, test_perf
 
 
-def cost_for_contour(w1_range, w2_range, weights, x, y):
+def cost_for_contour(x, W, b, y, w1_range, w2_range):
 
     cost = np.zeros((w1_range.size, w2_range.size))
     for w1 in enumerate(w1_range):
         for w2 in enumerate(w2_range):
-            #TODO: figure out cost w.r.t two weights
+#TODO:      disturb one weight in weight matrix
+#TODO:      compute ouput
+#TODO:      compute cost w.r.t that first weight
+#TODO:      repeate and compute cost w.r.t to second weight
+            disturbed_weights = weights.copy
+            disturbed_weights[]
+#TODO:      figure out cost w.r.t two weights
         #  is it the sum of costs w.r.t each weight?
-#            cost[w1,w2] =
+#            cost[w1,w2] = cost_w1 + cost_w2
      return
 #
 

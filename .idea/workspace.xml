@@ -4,7 +4,6 @@
     <list default="true" id="ebfe3fca-5f65-46a4-a39a-8647766c75db" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/digits.py" afterPath="$PROJECT_DIR$/digits.py" />
       <change beforePath="$PROJECT_DIR$/mnist_handout.py" afterPath="$PROJECT_DIR$/mnist_handout.py" />
-      <change beforePath="$PROJECT_DIR$/plot.py" afterPath="$PROJECT_DIR$/plot.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,9 +17,11 @@
       <file leaf-file-name="digits.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/digits.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="18" lean-forward="false" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-              <folding />
+            <state relative-caret-position="465">
+              <caret line="339" column="5" lean-forward="false" selection-start-line="339" selection-start-column="5" selection-end-line="339" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -28,7 +29,7 @@
       <file leaf-file-name="plot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
+            <state relative-caret-position="515">
               <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -40,8 +41,8 @@
       <file leaf-file-name="mnist_handout.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mnist_handout.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="287" column="8" lean-forward="false" selection-start-line="287" selection-start-column="8" selection-end-line="287" selection-end-column="8" />
+            <state relative-caret-position="368">
+              <caret line="281" column="52" lean-forward="true" selection-start-line="281" selection-start-column="4" selection-end-line="281" selection-end-column="52" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -65,9 +66,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/contour_plot_practice.py" />
-        <option value="$PROJECT_DIR$/digits.py" />
         <option value="$PROJECT_DIR$/plot.py" />
         <option value="$PROJECT_DIR$/mnist_handout.py" />
+        <option value="$PROJECT_DIR$/digits.py" />
       </list>
     </option>
   </component>
@@ -333,15 +334,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/digits.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="18" lean-forward="false" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="465">
+          <caret line="339" column="5" lean-forward="false" selection-start-line="339" selection-start-column="5" selection-end-line="339" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
+        <state relative-caret-position="515">
           <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
@@ -351,8 +354,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mnist_handout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="287" column="8" lean-forward="false" selection-start-line="287" selection-start-column="8" selection-end-line="287" selection-end-column="8" />
+        <state relative-caret-position="368">
+          <caret line="281" column="52" lean-forward="true" selection-start-line="281" selection-start-column="4" selection-end-line="281" selection-end-column="52" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
