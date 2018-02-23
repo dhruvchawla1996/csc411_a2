@@ -47,6 +47,20 @@ def plot_digit_weights(W):
         fig.colorbar(heatmap, shrink = 0.5, aspect=5)
         savefig("figures/part4_"+str(i)+".png")
 
+def plot_digit_weights_rerun(W):
+    '''Plot heatmap images of digits 0-9
+
+    W   Array of size 28*28
+
+    Saves 10 figures in figures/
+    '''
+    for i in range(10):
+        fig = figure(i)
+        ax = fig.gca()
+        heatmap = ax.imshow(W[:, i].reshape((28,28)), cmap = cm.coolwarm)
+        fig.colorbar(heatmap, shrink = 0.5, aspect=5)
+        savefig("figures/part4_"+str(i)+"_rerun"+".png")
+
 def plot_learning_curves(part, epoch, train_perf, test_perf):
     '''Plot learning curves for training and testing set w.r.t epoch
     
@@ -65,6 +79,26 @@ def plot_learning_curves(part, epoch, train_perf, test_perf):
     plt.ylabel("Performance (%)")
     plt.legend()
     plt.savefig("figures/" + part + "_learning_curve.png")
+
+
+def plot_learning_curves_rerun(part, epoch, train_perf, test_perf):
+    '''Plot learning curves for training and testing set w.r.t epoch
+
+    part                    "part4" or "part8"
+    epoch       list(Int)   epoch
+    train_perf  list(Int)   performance on training set in % with each element corresponding to epoch
+    test_perf   list(Int)   performance on testing set in % with each element corresponding to epoch
+
+    Plots and saves figure in "figure/part4_learning_curve.png" or "figure/part8_learning_curve.png"
+    '''
+    plt.plot(epoch, train_perf, color='k', linewidth=2, marker="o", label="Training Set")
+    plt.plot(epoch, test_perf, color='r', linewidth=2, marker="o", label="Testing Set")
+
+    plt.title("Learning curve")
+    plt.xlabel("Epoch")
+    plt.ylabel("Performance (%)")
+    plt.legend()
+    plt.savefig("figures/" + part + "_learning_curve" + "_rerun" + ".png")
 
 #def plot_trajectory(part, w1, w2)
 #    gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]

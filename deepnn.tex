@@ -349,6 +349,37 @@ def gradient_simple_network_b(x, W, b, y):
     return np.sum((p - y), axis=1).reshape((10, 1))
 \end{python}
 
+\begin{verbatim}
+Index: 245.0, 9.0
+Actual Gradient Value:   0.0508788452877
+Finite Difference Value: 0.0508927423062
+
+Index: 241.0, 4.0
+Actual Gradient Value:   0.030247790924
+Finite Difference Value: 0.030294025573
+
+Index: 686.0, 4.0
+Actual Gradient Value:   0.0288074199276
+Finite Difference Value: 0.0288493552549
+
+Index: 571.0, 7.0
+Actual Gradient Value:   -0.0403508424702
+Finite Difference Value: -0.040346477939
+
+Index: 180.0, 3.0
+Actual Gradient Value:   -0.0110842325284
+Finite Difference Value: -0.0110820650203
+
+Index: 408.0, 6.0
+Actual Gradient Value:   0.00594562385543
+Finite Difference Value: 0.00595885681642
+
+Index: 216.0, 6.0
+Actual Gradient Value:   0.0111480447289
+Finite Difference Value: 0.0111945692614
+\end{verbatim}
+
+
 \end{homeworkProblem}
 \clearpage
 
