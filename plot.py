@@ -100,6 +100,40 @@ def plot_learning_curves_rerun(part, epoch, train_perf, test_perf):
     plt.legend()
     plt.savefig("figures/" + part + "_learning_curve" + "_rerun" + ".png")
 
+# def create_contour_plot(cost, w1, w2):
+     #TODO: create meshgrid
+    matplotlib.rcParams['xtick.direction'] = 'out'
+    matplotlib.rcParams['ytick.direction'] = 'out'
+
+    W1, W2 = np.meshgrid(w1, w2)
+
+    plt.figure()
+    CS = plt.contour(W1, W2, cost)
+    plt.clabel(CS, inline=1, fontsize=10)
+    plt.title('Contour plot of cost w.r.t w_(382,3) and w_(382,4)')
+    plt.show()
+    
+#
+#     return
+
+# def plot_trajectories_2(part, w1, w2):
+#
+#     gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
+#     mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
+#     w1s = np.arange(-0, 1, 0.05)
+#     w2s = np.arange(-0, 1, 0.05)
+#     w1z, w2z = np.meshgrid(w1s, w2s)
+#     C = np.zeros([w1s.size, w2s.size])
+#     for i, w1 in enumerate(w1s):
+#         for j, w2 in enumerate(w2s):
+#             C[i,j] = get_loss(w1, w2)
+#     CS = plt.contour(w1z, w2z, C)
+#     plt.plot([a for a, b in gd_traj], [b for a,b in gd_traj], 'yo-', label="No Momentum")
+#     plt.plot([a for a, b in mo_traj], [b for a,b in mo_traj], 'go-', label="Momentum")
+#     plt.legend(loc='top left')
+#     plt.title('Contour plot')
+
+
 #def plot_trajectory(part, w1, w2)
 #    gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
 #    mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
