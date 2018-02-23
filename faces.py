@@ -85,7 +85,7 @@ def get_and_crop_images(act, size):
                 try:
                     rgb_img = imread("uncropped"+str(size)+"/"+filename)
                     cropped_img = rgb_img[int(crop_bbox[1]):int(crop_bbox[3]), int(crop_bbox[0]):int(crop_bbox[2])]
-                    resized_img = imresize(cropped_img, (64, 64))
+                    resized_img = imresize(cropped_img, (size, size))
                     imsave("cropped"+str(size)+"/"+filename, resized_img)
 
                 except Exception as e:
@@ -167,6 +167,50 @@ def build_sets(actor):
         tr_img = tr_img[:, :, :3]
         tr_img = reshape(np.ndarray.flatten(tr_img), [1, 64*64*3])
         tr_img = tr_img/128. - 1.
+        train_set = np.vstack((train_set, tr_img))
+
+    return train_set, test_set
+
+def build_sets_part10(actor):
+    '''Return two lists of randomized image names 
+    in cropped/ folder that match actor name
+    
+    Training Set - At least 67 image names (Screw Peri Gilpin)
+    Validation Set - 10 image names 
+    Testing Set - 10 image names
+    
+    Takes in name as lowercase last name (ex: gilpin)
+
+    Assumption: cropped/ folder is populated with images from get_and_crop_images
+    '''
+    # Make a list of images for the actor
+    image_list = []
+
+    for f in os.listdir("cropped227"):
+        if actor in f:
+            image_list.append(f)
+
+    # Shuffle
+    np.random.seed(5)
+    np.random.shuffle(image_list)
+
+    train_set = np.zeros((0, 3, 227, 227))
+    test_set = np.zeros((0, 3, 227, 227))
+
+    for img in image_list[:20]:
+        t_img = imread("cropped227/"+img)
+        t_img = t_img[:, :, :3]
+        t_img = t_img/128. - 1.
+        t_img = np.rollaxis(t_img, -1).astype(np.float32)
+        t_img = np.reshape(t_img, [1, 3, 227, 227])
+        test_set = np.vstack((test_set, t_img))
+
+    for img in image_list[20:]:
+        tr_img = imread("cropped227/"+img)
+        tr_img = tr_img[:, :, :3]
+        tr_img = tr_img/128. - 1.
+        tr_img = np.rollaxis(tr_img, -1).astype(np.float32)
+        tr_img = np.reshape(tr_img, [1, 3, 227, 227])
         train_set = np.vstack((train_set, tr_img))
 
     return train_set, test_set
