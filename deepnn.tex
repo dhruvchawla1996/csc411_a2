@@ -444,7 +444,7 @@ Performance of the learning curves can be seen in Figure $2$.
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[scale=1]{figures/part4_learning_curve_rerun.png}
+    \includegraphics[scale=1]{figures/part4_learning_curve.png}
     \caption{Learning curve for neural network using Gradient Descent}
     \label{fig:fig2}
 \end{figure*}
@@ -583,12 +583,12 @@ Performance of the learning curves can be seen in Figure $4$.
 
 \begin{figure*}[h!]
     \centering
-    \includegraphics[scale=1]{figures/part5_learning_curve_rerun.png}
+    \includegraphics[scale=1]{figures/part5_learning_curve.png}
     \caption{Learning curve for neural network using Gradient Descent with Momentum}
     \label{fig:fig4}
 \end{figure*}
 
-It can be observed that with momentum, we reach the peak performance faster than without. In addition, the performance of the algorithm (in terms of accuracy on the test and training set are not sacrificed).\\
+It can be observed that with momentum, we reach the peak performance faster than without (notice the steep increase in performance from 0 to 100 iterations). In addition, the performance of the algorithm (in terms of accuracy on the test and training set are not sacrificed). The final performance on the test set was 92.67\% in comparison to 92.57\% by the the training algorithm without momentum.\\
 
 \end{homeworkProblem}
 \clearpage
@@ -616,6 +616,36 @@ It can be observed that with momentum, we reach the peak performance faster than
 %----------------------------------------------------------------------------------------
 
 \begin{homeworkProblem}
+
+\textit{Using PyTorch for FaceScrub face classification}\\
+
+\textbf{Architecture of the system}\\
+\begin{enumerate}
+    \item \textbf{Training and testing set:} Testing set includes 20 images from each actor. The rest of the images for each actor is in the testing set.
+    \item \textbf{Getting images:} Used \texttt{get\_and\_crop\_images(act, 64)} and \texttt{remove\_bad\_images(64)} in \texttt{faces.py} to get RGB images of actors and crop them into 64x64 RGB images. Images were checked for SHA-256 checksums and bad images were hardcoded and removed programatically. Using 64x64 RGB images performed better than using 32x32 or grayscale images.
+    \item \textbf{Preprocessing the images:} Images were normalized into [-1, 1] and reshaped into vectors of shape (1, 64*64*3)
+    \item \textbf{Number of hidden neurons:} Used 600 neurons in one hidden layer. The number of neurons were increased until they were not bringing the cost down for corresponding epochs (perhaps due to overfitting). Increasing number of hidden layers did not give any significant increase in performance.
+    \item \textbf{Activation Function:} Used ReLU for the hidden layer activation function. ReLU gave better performace than Tanh or Sigmoid.
+    \item \textbf{Mini Batches:} Training was done in batches of 20 random images each. It was made sure that each batch would have a different set of images for training than others. However, the batches themselves repeat after 30 iterations as there are only 600 images while there are 700 iterations to get the best performance.
+    \item \textbf{Gradient Optimizer:} Used Adam optimizer. Other optimizers were tried (SGD, AdaGrad) but Adam gave the best performance.
+    \item \textbf{Learning rate and max iterations:}Used learning rate of $1^{-4}$ and 700 iterations. Using more iterations increased cost (due to overfitting). The learning rate was low enough to achieve good performance while not having a lot of iterations.
+\end{enumerate}
+
+The model, training, and performance is in \texttt{part8()} of \texttt{deepfaces.py}.\\
+
+The final performace of the system was 99.833\% on the training set and 83.33\% on the test set. This is substantially better than the 72\% testing performance achieved on the linear regression model in Project 1.\\
+
+The performance curve is shown in Figure 5.\\
+
+\clearpage
+
+\textbf{Performance curve}\\
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[scale=1]{figures/part8_learning_curve.png}
+    \caption{Learning curve for the PyTorch neural network}
+    \label{fig:fig5}
+\end{figure*}
 
 \end{homeworkProblem}
 \clearpage
