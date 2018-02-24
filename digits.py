@@ -183,47 +183,102 @@ def part5():
 
     W, b, epoch, train_perf, test_perf = train_nn_M(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha)
 
-    #TODO: save weights from 6000 iterations.
+
     #Saved weights by training for 3000 iterations only in the interest of time
     print("saving")
     np.save("weights_part5", W)
+    np.save("bias_part5", b)
 
-    print("plotting")
-    plot_learning_curves("part5", epoch, train_perf, test_perf)
-    #plot_digit_weights(W)
+    # print("plotting")
+    # plot_learning_curves("part5", epoch, train_perf, test_perf)
+    # plot_digit_weights(W)
 
 ################################################################################
 # Part 6
 ################################################################################
-def part6():
+def part6a():
+
+    M = loadmat("mnist_all.mat")
+
+    # Split data into training and test set
+    train_set, train_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+    test_set, test_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+
+    for i in range(10):
+        train_set = np.vstack((train_set, ((np.array(M["train" + str(i)])[:]) / 255.)))
+        test_set = np.vstack((test_set, ((np.array(M["test" + str(i)])[:]) / 255.)))
+
+        one_hot = np.zeros(10)
+        one_hot[i] = 1
+
+        train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train" + str(i)]), 1))))
+        test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test" + str(i)]), 1))))
+
+    train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
 
     weights = np.load("weights_part5.npy")
+    bias = np.load("bias_part5.npy")
+
+    #gradient = np.load("gradient_matrix_part5.npy")
+    # np.amax(gradient)
+    # Out[81]: 7.5869704674327316
+    # np.where(gradient == np.amax(gradient))
+    # Out[82]: (array([360]), array([5]))
+    # np.where(gradient == np.amin(gradient))
+    # Out[83]: (array([333]), array([5]))
+
     #choose weights at the center of the digits 784/2 and 784/2 + 28* 5
-    w1 = weights[int(784/2), 3]
-    w2 = weights[int(784/2), 4]
-
-    coords = np.array([[int(784/2), int(784/2)],[3,4]])
-    #TODO: figure out how much to vary the weights by, create vector for meshgrid
-    # You should determine the range that would get you a good visualization.
-    print(weights)
-    print(np.mean(weights), np.std(weights))
-    print(np.mean(weights[int(784/2),:]), np.std(weights[:,3]), np.std(weights[:,4]))
-
+    w1 = weights[360, 5]
+    w2 = weights[333, 5]
     # are my weights supposed to be this small?
-    w1_range = np.random.normal(w1, np.std(weights[:,3]), 20)
-    w2_range = np.random.normal(w2, np.std(weights[:,4]), 20)
-    print(w1, w2)
+    #print(w1, w2)
 
-    #TODO: write cost as function of these two weights (in mnist_handout.py)
-    #cost_for_contour(x, W, b, y, w1_range, w2_range, coords)
+    coords = np.array([[360, 333],[5, 5]])
+    # You should determine the range that would get you a good visualization.
+#    print(weights)
+    #print(np.mean(weights), np.std(weights))
+    #print(np.mean(weights[int(784/2),:]), np.std(weights[:,3]), np.std(weights[:,4]))
+    #choose 20 values to vary weights by
+    #bad idea lol
+    # w1_range = np.random.normal(w1, np.std(weights[:,3]), 20)
+    # w2_range = np.random.normal(w2, np.std(weights[:,4]), 20)
 
+    w1_range = np.arange(-10, -7, 0.1)
+    w2_range = np.arange(2, 5, 0.1)
+    #print(w1, w2)
 
-    #create contour plot of cost
-    #create_contour_plot(w1_range, w2_range, cost)
+    print("computing cost matrix")
+    cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
+    print("creating contour plot")
+    create_contour_plot(cost, w1_range, w2_range)
 
-
-    #plot_trajectory("part6", mo_traj, w1, w2)
-    
+# def part6b():
+#
+#     M = loadmat("mnist_all.mat")
+#
+#     # Split data into training and test set
+#     train_set, train_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+#     test_set, test_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+#
+#     for i in range(10):
+#         train_set = np.vstack((train_set, ((np.array(M["train" + str(i)])[:]) / 255.)))
+#         test_set = np.vstack((test_set, ((np.array(M["test" + str(i)])[:]) / 255.)))
+#
+#         one_hot = np.zeros(10)
+#         one_hot[i] = 1
+#
+#         train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train" + str(i)]), 1))))
+#         test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test" + str(i)]), 1))))
+#
+#     train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
+#
+#     weights = np.load("weights_part5.npy")
+#     bias = np.load("bias_part5.npy")
+#
+#     init_W =
+#     init_b =
+#
+#     return
 
 ################################################################################
 # Function calls
@@ -233,4 +288,6 @@ def part6():
 #part3()
 #part4()
 #part5()
-#part6()
+part6a()
+
+

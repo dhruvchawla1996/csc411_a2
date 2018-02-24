@@ -67,7 +67,7 @@ def plot_learning_curves(part, epoch, train_perf, test_perf):
     plt.savefig("figures/" + part + "_learning_curve.png")
 
 def create_contour_plot(cost, w1, w2):
-     #TODO: create meshgrid
+
     matplotlib.rcParams['xtick.direction'] = 'out'
     matplotlib.rcParams['ytick.direction'] = 'out'
 
@@ -75,13 +75,14 @@ def create_contour_plot(cost, w1, w2):
 
     plt.figure()
     CS = plt.contour(W1, W2, cost)
-    plt.clabel(CS, inline=1, fontsize=10)
+#    plt.clabel(CS, inline=1, fontsize=10)
+    plt.xlabel("w1")
+    plt.ylabel("w2")
     plt.title('Contour plot of cost w.r.t w_(382,3) and w_(382,4)')
-    plt.show()
+    plt.savefig("figures/part6a.png")
 
-    return
 
-# def plot_trajectories_2(part, w1, w2):
+# def plot_trajectories(part, w1, w2):
 #
 #     gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
 #     mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
@@ -99,7 +100,7 @@ def create_contour_plot(cost, w1, w2):
 #     plt.title('Contour plot')
 
 
-#def plot_trajectory(part, w1, w2)
+#def plot_trajectory_Sabrina(part, w1, w2)
 #    gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
 #    mo_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
 #    w1 = np.arange(-0, 1, 0.05)

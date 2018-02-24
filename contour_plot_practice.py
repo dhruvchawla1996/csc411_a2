@@ -23,6 +23,6 @@ Z = 10.0 * (Z2 - Z1)
 #creating contour plots
 plt.figure()
 CS = plt.contour(X, Y, Z)
-plt.clabel(CS, inline=1, fontsize=10)
+#plt.clabel(CS, inline=1, fontsize=10)
 plt.title('Simplest default with labels')
 plt.show()

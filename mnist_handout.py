@@ -164,7 +164,8 @@ def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, al
 
     return W, b, epoch, train_perf, test_perf
 
-def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 6000):
+
+def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma = 0.9, max_iter = 1000):
     x = x_train
     y = y_train
 
@@ -205,6 +206,46 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
 
         itr += 1
 
+    # print("Saving gradient")
+    # np.save("gradient_matrix_part5", df_W(x,W,b,y))
+    return W, b, epoch, train_perf, test_perf
+
+
+def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 6000):
+    x = x_train
+    y = y_train
+
+    epoch, train_perf, test_perf = [], [], []
+
+    EPS = 1e-10
+    prev_W = init_W - 10 * EPS
+    prev_b = init_b - 10 * EPS
+    W = init_W.copy()
+    b = init_b.copy()
+    itr = 0
+
+    while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
+        prev_W = W.copy()
+        prev_b = b.copy()
+
+        W -= alpha * df_W(x, W, b, y)
+        b -= alpha * df_b(x, W, b, y)
+
+        if itr % 50 == 0 or itr == max_iter - 1:
+            epoch_i = itr
+            train_perf_i = performance(x_train, W, b, y_train)
+            test_perf_i = performance(x_test, W, b, y_test)
+
+            epoch.append(epoch_i)
+            train_perf.append(train_perf_i)
+            test_perf.append(test_perf_i)
+
+            print("Epoch: " + str(epoch_i))
+            print("Training Performance:   " + str(train_perf_i) + "%")
+            print("Testing Performance:    " + str(test_perf_i) + "%\n")
+
+        itr += 1
+
     return W, b, epoch, train_perf, test_perf
 
 
@@ -212,62 +253,71 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
 def cost_for_contour(x, W, b, y, w1_range, w2_range, coords):
     '''
 
-    :param x:
-    :param W:
-    :param b:
-    :param y:
-    :param w1_range:
-    :param w2_range:
-    :param coords:
+    :param x: input of some training example
+    :param W: optimum weights as computed by gradient descent in part 5
+    :param b: optimum biases as computed by gradient decsent in part 5
+    :param y: output of some training examples
+    :param w1_range: nparray of values used to vary some weight1
+    :param w2_range: nparray of values used to vary some other weight 2
+    :param coords: coordinates of weight1 and weight2
     :return: cost matrix of size w1_range.size x w2_range.size
     '''
 
+
     w1_i, w1_j = coords[:, 0][0], coords[:, 0][1]
     w2_i, w2_j = coords[:, 1][0], coords[:, 1][1]
+    cost = np.zeros((w1_range.size, w2_range.size))
 
-cost = np.zeros((w1_range.size, w2_range.size))
-    for w1_idx in enumerate(w1_range):
-        for w2_idx in enumerate(w2_range):
-#      disturb one weight in weight matrix
-            W_w1 = W.copy()
-            W_w1[w1_i, w1_j] = w1[w1_idx]
-            W_w2 = W.copy()
-            W_w2[w2_i, w2_j] = w2[w2_idx]
-#      compute cost w.r.t that first weight
-#      repeate and compute cost w.r.t to second weight
-            cost_i = NLL(compute_simple_network(x, W_w1, b), y)
-            cost_j = NLL(compute_simple_network(x, W_w2, b),y)
-#
-#        is it the sum of costs w.r.t each weight?
-            cost[w1_idx, w2_idx] = cost_w1 + cost_w2
-
-     return cost
+    for w1_idx in range(w1_range.size):
+        for w2_idx in range(w2_range.size):
+            W_disturbed = W.copy()
+            W_disturbed[w1_i, w1_j] = w1_range[w1_idx]
+            W_disturbed[w2_i, w2_j] = w2_range[w2_idx]
+            cost_ij = NLL(compute_simple_network(x, W_disturbed, b), y)  # compute cost
+            cost[w1_idx, w2_idx] = cost_ij
+            #print("w1_idx:", w1_idx, "w2_idx:", w2_idx, "cost_ij", cost_ij)
+    return cost
 
 
-#
+#TODO: train nn to find optimum weights w1 and w2 only keeping all other weights constant
+def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 3000):
 
 
-################################################################################
-# #Load sample weights for the multilayer neural network
-# snapshot = cPickle.load(open("snapshot50.pkl"))
-# W0 = snapshot["W0"]
-# b0 = snapshot["b0"].reshape((300,1))
-# W1 = snapshot["W1"]
-# b1 = snapshot["b1"].reshape((10,1))
+    x = x_train
+    y = y_train
 
-# #Load one example from the training set, and run it through the
-# #neural network
-# x = M["train5"][148:149].T    
-# L0, L1, output = forward(x, W0, b0, W1, b1)
-# #get the index at which the output is the largest
-# y = argmax(output)
-################################################################################
+    epoch, train_perf, test_perf = [], [], []
 
-################################################################################
-#Code for displaying a feature from the weight matrix mW
-#fig = figure(1)
-#ax = fig.gca()    
-#heatmap = ax.imshow(mW[:,50].reshape((28,28)), cmap = cm.coolwarm)    
-#fig.colorbar(heatmap, shrink = 0.5, aspect=5)
-#show()
-################################################################################
+    EPS = 1e-10
+    prev_W = init_W - 10 * EPS
+    prev_b = init_b - 10 * EPS
+    W = init_W.copy()
+    b = init_b.copy()
+    itr = 0
+
+    while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
+        prev_W = W.copy()
+        prev_b = b.copy()
+
+        W -= alpha * df_W(x, W, b, y)
+        b -= alpha * df_b(x, W, b, y)
+
+        if itr % 50 == 0 or itr == max_iter - 1:
+            epoch_i = itr
+            train_perf_i = performance(x_train, W, b, y_train)
+            test_perf_i = performance(x_test, W, b, y_test)
+
+            epoch.append(epoch_i)
+            train_perf.append(train_perf_i)
+            test_perf.append(test_perf_i)
+
+            print("Epoch: " + str(epoch_i))
+            print("Training Performance:   " + str(train_perf_i) + "%")
+            print("Testing Performance:    " + str(test_perf_i) + "%\n")
+
+        itr += 1
+
+    return W, b, epoch, train_perf, test_perf
+
+
+
