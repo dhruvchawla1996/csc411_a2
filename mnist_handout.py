@@ -210,45 +210,6 @@ def train_nn_M(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, 
     # np.save("gradient_matrix_part5", df_W(x,W,b,y))
     return W, b, epoch, train_perf, test_perf
 
-
-def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 6000):
-    x = x_train
-    y = y_train
-
-    epoch, train_perf, test_perf = [], [], []
-
-    EPS = 1e-10
-    prev_W = init_W - 10 * EPS
-    prev_b = init_b - 10 * EPS
-    W = init_W.copy()
-    b = init_b.copy()
-    itr = 0
-
-    while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
-        prev_W = W.copy()
-        prev_b = b.copy()
-
-        W -= alpha * df_W(x, W, b, y)
-        b -= alpha * df_b(x, W, b, y)
-
-        if itr % 50 == 0 or itr == max_iter - 1:
-            epoch_i = itr
-            train_perf_i = performance(x_train, W, b, y_train)
-            test_perf_i = performance(x_test, W, b, y_test)
-
-            epoch.append(epoch_i)
-            train_perf.append(train_perf_i)
-            test_perf.append(test_perf_i)
-
-            print("Epoch: " + str(epoch_i))
-            print("Training Performance:   " + str(train_perf_i) + "%")
-            print("Testing Performance:    " + str(test_perf_i) + "%\n")
-
-        itr += 1
-
-    return W, b, epoch, train_perf, test_perf
-
-
 #TODO: make this entire shit more efficient
 def cost_for_contour(x, W, b, y, w1_range, w2_range, coords):
     '''
@@ -280,27 +241,32 @@ def cost_for_contour(x, W, b, y, w1_range, w2_range, coords):
 
 
 #TODO: train nn to find optimum weights w1 and w2 only keeping all other weights constant
-def train_nn_p6b(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 3000):
-
+def train_nn_p6b(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter, w1_coords, w2_coords):
 
     x = x_train
     y = y_train
 
     epoch, train_perf, test_perf = [], [], []
-
+    weights_progress = [(init_W[w1_coords[0], w1_coords[1]], init_W[w2_coords[0], w2_coords[1]])]
     EPS = 1e-10
     prev_W = init_W - 10 * EPS
-    prev_b = init_b - 10 * EPS
     W = init_W.copy()
     b = init_b.copy()
     itr = 0
 
-    while norm(W - prev_W) > EPS and norm(b - prev_b) > EPS and itr < max_iter:
-        prev_W = W.copy()
-        prev_b = b.copy()
 
-        W -= alpha * df_W(x, W, b, y)
-        b -= alpha * df_b(x, W, b, y)
+    while norm(W - prev_W) > EPS and itr < max_iter:
+        prev_W = W.copy()
+
+        grad = df_W(x, W, b, y)
+        temp_grad = grad.copy()
+        temp_grad[w1_coords[0], w1_coords[1]] = 0
+        temp_grad[w2_coords[0], w2_coords[1]] = 0
+        grad_diff = grad - temp_grad
+        W -= alpha * grad_diff #update W such that only the two specific coordinates get changed
+        #don't bother updating b
+
+        weights_progress.append((W[w1_coords[0], w1_coords[1]], W[w2_coords[0], w2_coords[1]]))
 
         if itr % 50 == 0 or itr == max_iter - 1:
             epoch_i = itr
@@ -311,13 +277,14 @@ def train_nn_p6b(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b
             train_perf.append(train_perf_i)
             test_perf.append(test_perf_i)
 
+            print("Change: " + str(norm(W-prev_W))+ "," +str(EPS))
             print("Epoch: " + str(epoch_i))
             print("Training Performance:   " + str(train_perf_i) + "%")
             print("Testing Performance:    " + str(test_perf_i) + "%\n")
 
         itr += 1
 
-    return W, b, epoch, train_perf, test_perf
+    return weights_progress
 
 
 
