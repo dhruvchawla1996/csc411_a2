@@ -280,7 +280,7 @@ def cost_for_contour(x, W, b, y, w1_range, w2_range, coords):
 
 
 #TODO: train nn to find optimum weights w1 and w2 only keeping all other weights constant
-def train_nn(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 3000):
+def train_nn_p6b(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, max_iter = 3000):
 
 
     x = x_train

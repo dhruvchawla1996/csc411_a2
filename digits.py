@@ -252,33 +252,33 @@ def part6a():
     print("creating contour plot")
     create_contour_plot(cost, w1_range, w2_range)
 
-# def part6b():
-#
-#     M = loadmat("mnist_all.mat")
-#
-#     # Split data into training and test set
-#     train_set, train_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
-#     test_set, test_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
-#
-#     for i in range(10):
-#         train_set = np.vstack((train_set, ((np.array(M["train" + str(i)])[:]) / 255.)))
-#         test_set = np.vstack((test_set, ((np.array(M["test" + str(i)])[:]) / 255.)))
-#
-#         one_hot = np.zeros(10)
-#         one_hot[i] = 1
-#
-#         train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train" + str(i)]), 1))))
-#         test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test" + str(i)]), 1))))
-#
-#     train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
-#
-#     weights = np.load("weights_part5.npy")
-#     bias = np.load("bias_part5.npy")
-#
-#     init_W =
-#     init_b =
-#
-#     return
+def part6b():
+
+    M = loadmat("mnist_all.mat")
+
+    # Split data into training and test set
+    train_set, train_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+    test_set, test_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+
+    for i in range(10):
+        train_set = np.vstack((train_set, ((np.array(M["train" + str(i)])[:]) / 255.)))
+        test_set = np.vstack((test_set, ((np.array(M["test" + str(i)])[:]) / 255.)))
+
+        one_hot = np.zeros(10)
+        one_hot[i] = 1
+
+        train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train" + str(i)]), 1))))
+        test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test" + str(i)]), 1))))
+
+    train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
+
+    weights = np.load("weights_part5.npy")
+    bias = np.load("bias_part5.npy")
+
+    # init_W =
+    # init_b =
+
+    return
 
 ################################################################################
 # Function calls
