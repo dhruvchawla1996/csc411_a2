@@ -67,7 +67,7 @@ def plot_learning_curves(part, epoch, train_perf, test_perf):
     plt.savefig("figures/" + part + "_learning_curve.png")
 
 
-def plot_trajectories(cost, w1, w2, weights_progress):
+def plot_trajectories(cost, w1, w2, weights_progress, part):
     matplotlib.rcParams['xtick.direction'] = 'out'
     matplotlib.rcParams['ytick.direction'] = 'out'
 
@@ -82,7 +82,7 @@ def plot_trajectories(cost, w1, w2, weights_progress):
     plt.ylabel("w2")
     plt.title('Contour plot with trajectory (no momentum)')
     plt.legend(loc="best")
-    plt.savefig("figures/part6b.png")
+    plt.savefig("figures/part6"+part+".png")
 
 # def plot_trajectories(cost, w1, w2):
 #

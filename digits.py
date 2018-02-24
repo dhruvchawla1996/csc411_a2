@@ -302,7 +302,7 @@ def part6b():
     w2_range = np.arange(2, 5, 0.1)
 
     cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
-    plot_trajectories(cost, w1_range, w2_range, weights_progress)
+    plot_trajectories(cost, w1_range, w2_range, weights_progress, "b")
 
 def part6c():
     M = loadmat("mnist_all.mat")
@@ -340,21 +340,21 @@ def part6c():
     init_W[w2_coords[0], w2_coords[1]] = 2.3
     init_b = np.load("bias_part5.npy")
 
-    alpha = 0.01
+    alpha = 0.015
     gamma = 0.9
     max_iter = 20
 
     weights_progress = train_nn_M_p6c(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha, gamma, max_iter,w1_coords, w2_coords)
     print(weights_progress) #weights seem ok
 
-    # w1 = weights[360, 5]
-    # w2 = weights[333, 5]
-    # coords = np.array([[360, 333], [5, 5]])
-    # w1_range = np.arange(-10, -7, 0.1)
-    # w2_range = np.arange(2, 5, 0.1)
-    #
-    # cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
-    # plot_trajectories(cost, w1_range, w2_range, weights_progress)
+    w1 = weights[360, 5]
+    w2 = weights[333, 5]
+    coords = np.array([[360, 333], [5, 5]])
+    w1_range = np.arange(-10, -7, 0.1)
+    w2_range = np.arange(2, 5, 0.1)
+
+    cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
+    plot_trajectories(cost, w1_range, w2_range, weights_progress,"c")
 
 
 ################################################################################

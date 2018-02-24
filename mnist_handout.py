@@ -313,11 +313,10 @@ def train_nn_M_p6c(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init
 
         #update velocities
         v_W = gamma * v_W + alpha * grad_diff
-        print(v_W)
         #update parameters with momentum
-        W[w1_coords[0], w1_coords[1]] -= v_W
-        W[w2_coords[0], w2_coords[1]] -= v_W
+        W = W-v_W
 
+        weights_progress.append((W[w1_coords[0], w1_coords[1]], W[w2_coords[0], w2_coords[1]]))
         if itr % 50 == 0 or itr == max_iter - 1:
             epoch_i = itr
             train_perf_i = performance(x_train, W, b, y_train)
@@ -326,7 +325,6 @@ def train_nn_M_p6c(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init
             epoch.append(epoch_i)
             train_perf.append(train_perf_i)
             test_perf.append(test_perf_i)
-
             print("Change: " + str(norm(W - prev_W)) + "," + str(EPS))
             print("Epoch: " + str(epoch_i))
             print("Training Performance:   " + str(train_perf_i) + "%")
