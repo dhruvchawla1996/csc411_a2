@@ -146,7 +146,7 @@ def alexNetFaceScrub():
 
     epoch, train_perf, test_perf = [], [], []
 
-    learning_rate, max_iter = 1e-4, 400
+    learning_rate, max_iter = 1e-4, 150
     optimizer = torch.optim.Adam(new_model.parameters(), lr=learning_rate)
     for t in range(max_iter):
         y_pred = new_model(x)
@@ -157,7 +157,7 @@ def alexNetFaceScrub():
         optimizer.step()   # Use the gradient information to 
                            # make a step
 
-        if t % 50 == 0 or t == max_iter - 1:
+        if t % 10 == 0 or t == max_iter - 1:
             print("Epoch: " + str(t))
 
             # Training Performance
