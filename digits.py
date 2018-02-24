@@ -304,6 +304,57 @@ def part6b():
     cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
     plot_trajectories(cost, w1_range, w2_range, weights_progress)
 
+def part6c():
+    M = loadmat("mnist_all.mat")
+
+    # Split data into training and test set
+    train_set, train_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+    test_set, test_label = np.zeros((0, 28 * 28)), np.zeros((0, 10))
+
+    for i in range(10):
+        train_set = np.vstack((train_set, ((np.array(M["train" + str(i)])[:]) / 255.)))
+        test_set = np.vstack((test_set, ((np.array(M["test" + str(i)])[:]) / 255.)))
+
+        one_hot = np.zeros(10)
+        one_hot[i] = 1
+
+        train_label = np.vstack((train_label, np.tile(one_hot, (len(M["train" + str(i)]), 1))))
+        test_label = np.vstack((test_label, np.tile(one_hot, (len(M["test" + str(i)]), 1))))
+
+    train_set, train_label, test_set, test_label = train_set.T, train_label.T, test_set.T, test_label.T
+
+    weights = np.load("weights_part5.npy")
+    bias = np.load("bias_part5.npy")
+
+    w1_coords = (360, 5)
+    w2_coords = (333, 5)
+
+    init_W = weights.copy()
+    #initialize these weights to be far apart from original values
+    # weights = np.load("weights_part5.npy")
+    # weights[360, 5]
+    # Out[85]: -1.1622765026406856
+    # weights[333, 5]
+    # Out[86]: 1.2262973718837111
+    init_W[w1_coords[0], w1_coords[1]] = -9.8
+    init_W[w2_coords[0], w2_coords[1]] = 2.3
+    init_b = np.load("bias_part5.npy")
+
+    alpha = 0.01
+    gamma = 0.9
+    max_iter = 20
+
+    weights_progress = train_nn_M_p6c(compute_simple_network, gradient_simple_network_w, gradient_simple_network_b, train_set, train_label, test_set, test_label, init_W, init_b, alpha, gamma, max_iter,w1_coords, w2_coords)
+    print(weights_progress) #weights seem ok
+
+    # w1 = weights[360, 5]
+    # w2 = weights[333, 5]
+    # coords = np.array([[360, 333], [5, 5]])
+    # w1_range = np.arange(-10, -7, 0.1)
+    # w2_range = np.arange(2, 5, 0.1)
+    #
+    # cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
+    # plot_trajectories(cost, w1_range, w2_range, weights_progress)
 
 
 ################################################################################
@@ -315,6 +366,6 @@ def part6b():
 #part4()
 #part5()
 #part6a()
-part6b()
-
+#part6b()
+part6c()
 

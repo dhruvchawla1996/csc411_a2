@@ -287,4 +287,55 @@ def train_nn_p6b(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b
     return weights_progress
 
 
+def train_nn_M_p6c(f, df_W, df_b, x_train, y_train, x_test, y_test, init_W, init_b, alpha, gamma, max_iter, w1_coords, w2_coords):
+
+    x = x_train
+    y = y_train
+
+    epoch, train_perf, test_perf = [], [], []
+    weights_progress = [(init_W[w1_coords[0], w1_coords[1]], init_W[w2_coords[0], w2_coords[1]])]
+    EPS = 1e-10
+    prev_W = init_W - 10 * EPS
+    W = init_W.copy()
+    b = init_b.copy()
+    itr = 0
+    v_W = 0
+
+    while norm(W - prev_W) > EPS and itr < max_iter:
+        prev_W = W.copy()
+
+        #TODO: check this logic
+        grad = df_W(x, W, b, y)
+        temp_grad = grad.copy()
+        temp_grad[w1_coords[0], w1_coords[1]] = 0
+        temp_grad[w2_coords[0], w2_coords[1]] = 0
+        grad_diff = grad - temp_grad
+
+        #update velocities
+        v_W = gamma * v_W + alpha * grad_diff
+        print(v_W)
+        #update parameters with momentum
+        W[w1_coords[0], w1_coords[1]] -= v_W
+        W[w2_coords[0], w2_coords[1]] -= v_W
+
+        if itr % 50 == 0 or itr == max_iter - 1:
+            epoch_i = itr
+            train_perf_i = performance(x_train, W, b, y_train)
+            test_perf_i = performance(x_test, W, b, y_test)
+
+            epoch.append(epoch_i)
+            train_perf.append(train_perf_i)
+            test_perf.append(test_perf_i)
+
+            print("Change: " + str(norm(W - prev_W)) + "," + str(EPS))
+            print("Epoch: " + str(epoch_i))
+            print("Training Performance:   " + str(train_perf_i) + "%")
+            print("Testing Performance:    " + str(test_perf_i) + "%\n")
+
+        itr += 1
+
+    # print("Saving gradient")
+    # np.save("gradient_matrix_part5", df_W(x,W,b,y))
+    return weights_progress
+
 
