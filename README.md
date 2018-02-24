@@ -3,6 +3,10 @@ Machine Learning and Data Mining - University of Toronto Winter 2018
 
 Use Python2
 
+[cropped227.zip](https://drive.google.com/open?id=1ctcwF9IRBD68ycKUE52yyXiio9S44X51)
+
+[cropped64.zip](https://drive.google.com/open?id=1a23dvrrKjfDTZ5IMWs8w9_vOch7er_yq)
+
 ## Project 2
 Deep Neural Networks for Handwritten Digit and Face Recognition
 
