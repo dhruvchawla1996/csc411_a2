@@ -340,7 +340,7 @@ def part6c():
     init_W[w2_coords[0], w2_coords[1]] = 2.3
     init_b = np.load("bias_part5.npy")
 
-    alpha = 0.015
+    alpha = 0.01
     gamma = 0.9
     max_iter = 20
 
@@ -354,8 +354,13 @@ def part6c():
     w2_range = np.arange(2, 5, 0.1)
 
     cost = cost_for_contour(train_set, weights, bias, train_label, w1_range, w2_range, coords)
-    plot_trajectories(cost, w1_range, w2_range, weights_progress,"c")
+    plot_trajectories_M(cost, w1_range, w2_range, weights_progress,"c")
 
+def part6d():
+    #plot both trajectories
+
+
+    return
 
 ################################################################################
 # Function calls

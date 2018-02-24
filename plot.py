@@ -84,6 +84,40 @@ def plot_trajectories(cost, w1, w2, weights_progress, part):
     plt.legend(loc="best")
     plt.savefig("figures/part6"+part+".png")
 
+def plot_trajectories_M(cost, w1, w2, weights_progress, part):
+    matplotlib.rcParams['xtick.direction'] = 'out'
+    matplotlib.rcParams['ytick.direction'] = 'out'
+
+    W1, W2 = np.meshgrid(w1, w2)
+
+    plt.figure()
+    CS = plt.contour(W1, W2, cost)
+
+    plt.plot([a for a, b in weights_progress], [b for a, b in weights_progress], 'yo-', label="With Momentum")
+
+    plt.xlabel("w1")
+    plt.ylabel("w2")
+    plt.title('Contour plot with trajectory (With momentum)')
+    plt.legend(loc="best")
+    plt.savefig("figures/part6"+part+".png")
+
+# def plot_both_trajectories(cost, w1, w2, weights_progress, weights_progress_M, part):
+#     matplotlib.rcParams['xtick.direction'] = 'out'
+#     matplotlib.rcParams['ytick.direction'] = 'out'
+#
+#     W1, W2 = np.meshgrid(w1, w2)
+#
+#     plt.figure()
+#     CS = plt.contour(W1, W2, cost)
+#
+#     plt.plot([a for a, b in weights_progress], [b for a, b in weights_progress], 'yo-', label="No Momentum")
+#     plt.plot([a for a, b in weights_progress_M], [b for a, b in weights_progress], 'yo-', label="With Momentum")
+#     plt.xlabel("w1")
+#     plt.ylabel("w2")
+#     plt.title('Contour plot with trajectories comparing gradient descent with and without momentum')
+#     plt.legend(loc="best")
+#     plt.savefig("figures/part6"+part+".png")
+
 # def plot_trajectories(cost, w1, w2):
 #
 #     gd_traj = [(init_w1, init_w2), (step1_w1, step1_w2), ...]
