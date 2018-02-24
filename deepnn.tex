@@ -608,6 +608,49 @@ It can be observed that with momentum, we reach the peak performance faster than
 
 \begin{homeworkProblem}
 
+\textit{Backpropogation vs computing the gradient with respect to each weight individually}\\
+
+In this case, we are considering a general, fully-connected neural network with $N$ layers (inclusive of the input and the output layer) each of which contains $K$ neurons.\\
+
+We assume that multiplication of two square matrices is a cubic time complexity operation with respect to the size of the matrix and that the forward pass is cached.\\
+
+\textbf{Computing gradient with respect to each weight term individually}\\
+
+The change in cost, $C$ if a weight $W_{(l, j, i)}$ in layer $l$ gets changed is:
+
+\begin{align*}
+    \frac {\partial C} {\partial W_{(l, j, i)}} = \sum_{j^{(N)}=1}^K \frac {\partial C} {\partial h_{(N, j^{(N))}}} \frac {\partial h_{(N, j^{(N))}}} {\partial W_{(l, j, i)}}
+\end{align*}
+
+And further, $\frac {\partial h_{(N, j^{(N))}}} {\partial W_{(l, j, i)}}$ depends on layers lower down in the network.
+
+\begin{align*}
+    \frac {\partial h_{(N, j^{(N))}}} {\partial W_{(l, j, i)}} =& \sum_{j^{(N-1)}=1}^K \frac {\partial h_{(N, j^{(N))}}} {\partial h_{(N-1, j^{(N-1))}}} \frac {\partial h_{(N-1, j^{(N-1))}}} {\partial W_{(l, j, i)}}\\
+    \frac {\partial h_{(N-1, j^{(N-1))}}} {\partial W_{(l, j, i)}} =& \sum_{j^{(N-2)}=1}^K \frac {\partial h_{(N-1, j^{(N-1))}}} {\partial h_{(N-2, j^{(N-2))}}} \frac {\partial h_{(N-2, j^{(N-2))}}} {\partial W_{(l, j, i)}}\\
+    \vdots&\\
+    \frac {\partial h_{(l+1, j^{(l+1))}}} {\partial W_{(l, j, i)}} =& \sum_{j^{(l)}=1}^K \frac {\partial h_{(l+1, j^{(l+1))}}} {\partial h_{(l, j^{(l))}}} \frac {\partial h_{(l, j^{(l))}}} {\partial W_{(l, j, i)}}\\
+\end{align*}
+
+In addition to the changes incurred along the layers, each change in parameter affects each node it connects to in the next layer (as the network is fully connected). In essence, each change in weight value \textit{branches} off $K$ times in the next layer. For an $N$ layer neural network, this means $K^N$ repetitions for each change in the bottom-most layer's weights.\\
+
+Thus, the total cost for gradient computation is:\\
+
+\begin{align*}
+    \sum_{(l, j, i)} C_{W_{(l, j, i)}} &= N K^N + N K^{N-1} + \hdots + N K \\
+    &= N \frac {1 - K^{N+1}} {1 - K} \\
+    &= O(N K^N)
+\end{align*}
+
+\clearpage
+
+\textbf{Computing gradient using backpropogation}\\
+
+With (fully vectorized) backpropogation, we are essentially multilpying two 2-Dimensional matrices when we have to compute the gradient for each layer.\\
+
+Since each layer has $K$ neurons and there are $N$ layers in total, this makes the cost to be $O(N K^3)$, since multiplying two matrices is a cubic time complexity operation.\\
+
+Thus, we can observe that backpropogation is a much faster procedure for computing gradient than computing gradient with respect to each weight individually.\\
+
 \end{homeworkProblem}
 \clearpage
 
