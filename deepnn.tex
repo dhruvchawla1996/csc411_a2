@@ -599,6 +599,65 @@ It can be observed that with momentum, we reach the peak performance faster than
 
 \begin{homeworkProblem}
 
+\textit{Gradient descent with momentum}\\
+
+\textbf{Part 6(a)}\\
+To choose, $w_{1}$ and $w_{2}$, we looked at the values of the gradient matrix from Part 5, and chose the two gradient indices that had high absolute values.\\
+
+Our aim was to get a plot with a circle in the center but we were not able to get that. We tried different $w_{1}$ and $w_{2}$ and changing the axis for the plot. This part involves a lot of trial and we should have been able to do it had we had more time for experiments.\\
+
+The contour plot is reproduced below:
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[scale=1]{figures/part6a.png}
+    \caption{Contour plot of the cost function}
+    \label{fig:fig5}
+\end{figure*}
+
+This is done in \texttt{part6a()} in \texttt{digits.py}.\\
+
+\clearpage
+
+\textbf{Part 6(b)}\\
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[scale=1]{figures/part6b.png}
+    \caption{Trajectory without momentum}
+    \label{fig:fig6}
+\end{figure*}
+
+Learning rate: $0.01$\\
+
+This is done in \texttt{part6b()} in \texttt{digits.py}.\\
+
+\clearpage
+
+\textbf{Part 6(c)}\\
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[scale=1]{figures/part6c.png}
+    \caption{Trajectory with momentum}
+    \label{fig:fig7}
+\end{figure*}
+
+Learning rate: $0.01$\\
+
+This is done in \texttt{part6c()} in \texttt{digits.py}.\\
+
+\clearpage
+
+\textbf{Part 6(d)}\\
+
+With momentum, we can see that the weights reach their optimium value in fewer iterations.\\
+
+\clearpage
+
+\textbf{Part 6(e)}\\
+
+I would suspect that for finding cases where momentum is useful, it's important that the particular weight carries a lot of importance in the calculation of the gradient. We tried to do that in Part 6(a) by looking for indices with maximum gradient values. These typically lie in the middle region of the image and where image weights change a lot from image to image.\\
+
 \end{homeworkProblem}
 \clearpage
 
@@ -678,7 +737,7 @@ The model, training, and performance is in \texttt{part8()} of \texttt{deepfaces
 
 The final performace of the system was 99.833\% on the training set and 83.33\% on the test set. This is substantially better than the 72\% testing performance achieved on the linear regression model in Project 1.\\
 
-The performance curve is shown in Figure 5.\\
+The performance curve is shown in Figure 8.\\
 
 \clearpage
 
@@ -687,7 +746,7 @@ The performance curve is shown in Figure 5.\\
     \centering
     \includegraphics[scale=1]{figures/part8_learning_curve.png}
     \caption{Learning curve for the PyTorch neural network}
-    \label{fig:fig5}
+    \label{fig:fig8}
 \end{figure*}
 
 \end{homeworkProblem}
@@ -722,7 +781,7 @@ We used the images \texttt{cropped64/bracco27.jpg} and \texttt{cropped64/baldwin
         \label{fig:sfig1}
     \end{subfigure}
     \caption{Visualizing weights of hidden units for classifying images as Bracco and Baldwin}
-    \label{fig:fig6}
+    \label{fig:fig9}
 \end{figure*} 
 
 The images roughly resemble faces (eyes, eyebrows and mouth can be made out). The images do seem a bit noisy which might be due to the fact that the R, G and B layers have been combined to make this image or it might be due to overfitting.\\ 

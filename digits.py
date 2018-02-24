@@ -372,5 +372,5 @@ def part6d():
 #part5()
 #part6a()
 #part6b()
-part6c()
+#part6c()
 
